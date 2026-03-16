@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body{
+      background: #fef9f6;
+    }
+    .container{
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column; 
+    }
+    .nav{
+      display: flex;
+      padding: 5px 10px;
+      background: white;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo{
+      width: 45px;
+      height: 45px;
+      border-radius: 8px;
+      background: #d4a374;
+    }
+    .menuburger{
+      width: 45px;
+      height: 45px;
+      border-radius: 8px;
+      background: #d4a374;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+    }
+    .menu{
+      display: flex;
+      gap: 70px;
+    }
+    .footer{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #006341;
+      color: white;
+      padding: 20px 0;
+    }
+    .main{
+      display: flex;
+      flex: 1;
+      justify-content: center;
+      align-items: center;
+    }
+    .itembox{
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="nav">
+      <div class="logo"></div>
+      <div class="menu">
+        <span>정치</span>
+        <span>경제</span>
+        <span>사회</span>
+        <span>문화</span>
+      </div>
+      <div class="menuburger">
+        ☰
+      </div>
+    </div>
+    <div class="main">
+      <div class="itembox">
+        <img src="../images/1.jpg" width="160" height="240" alt="1번 사진">
+        <img src="../images/2.jpg" width="160" height="240" alt="2번 사진">
+        <img src="../images/3.jpg" width="160" height="240" alt="3번 사진">
+        <img src="../images/4.jpg" width="160" height="240" alt="4번 사진">
+        <img src="../images/5.jpg" width="160" height="240" alt="5번 사진">
+        <img src="../images/6.jpg" width="160" height="240" alt="6번 사진">
+      </div>
+    </div>
+    <div class="footer">
+      ⓒ 2025 My News Site
+    </div>
+  </div>
+</body>
+</html>

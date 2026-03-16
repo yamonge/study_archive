@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Tech : Spotlight Bento Grid</title>
+    
+    <!-- 가장 깔끔하고 현대적인 IT 전용 폰트 -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #09090b; /* 매우 깊고 다크한 테마 */
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --spotlight-color: rgba(255, 255, 255, 0.25); /* 테두리 빛 색상 */
+            --spotlight-bg: rgba(255, 255, 255, 0.03);    /* 내부 빛 색상 */
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            
+            /* 배경에 아주 은은한 방사형 빛 추가 */
+            background-image: radial-gradient(circle at 50% -20%, #1e1b4b 0%, var(--bg-color) 70%);
+        }
+
+        /* 벤토 그리드 컨테이너 */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 기본 3열 */
+            grid-auto-rows: 240px;
+            gap: 20px;
+            width: 100%;
+            max-width: 1000px;
+            position: relative;
+        }
+
+        /* 개별 카드 기본 설정 */
+        .bento-card {
+            background: rgba(255, 255, 255, 0.02); /* 기본 반투명 배경 */
+            border-radius: 24px;
+            padding: 32px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            text-decoration: none;
+            color: inherit;
+            /* 내부 콘텐츠 정렬 */
+            justify-content: flex-end;
+            align-items: flex-start;
+            overflow: hidden;
+            transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        /* 마우스 호버 시 카드 살짝 튀어오름 */
+        .bento-card:hover {
+            transform: translateY(-4px);
+        }
+
+        /* ★ 핵심 기술 1 : 마우스를 따라다니는 '테두리' 조명 (Mask 사용) */
+        .bento-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            padding: 1.5px; /* 테두리 두께 */
+            /* JS로 업데이트되는 --mouse-x, y 좌표를 중심으로 원형 빛 생성 */
+            background: radial-gradient(
+                400px circle at var(--mouse-x, 0) var(--mouse-y, 0),
+                var(--spotlight-color),
+                transparent 40%
+            );
+            /* 내부를 파내어 테두리에만 배경이 적용되도록 마스킹 처리 */
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            z-index: 1;
+        }
+
+        /* ★ 핵심 기술 2 : 마우스를 따라다니는 '내부 배경' 조명 */
+        .bento-card::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(
+                400px circle at var(--mouse-x, 0) var(--mouse-y, 0),
+                var(--spotlight-bg),
+                transparent 40%
+            );
+            border-radius: inherit;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            z-index: 0;
+        }
+
+        /* 그리드 영역에 마우스가 들어오면 모든 카드의 조명을 켬 */
+        .bento-grid:hover .bento-card::before,
+        .bento-grid:hover .bento-card::after {
+            opacity: 1;
+        }
+
+        /* 콘텐츠 레이어 (빛 효과 위로 올라오도록) */
+        .card-content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 100%;
+        }
+
+        /* 카드 내부 아이콘 */
+        .icon-wrapper {
+            position: absolute;
+            top: 32px;
+            left: 32px;
+            width: 48px;
+            height: 48px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-main);
+            transition: all 0.3s ease;
+        }
+
+        .bento-card:hover .icon-wrapper {
+            background: rgba(255, 255, 255, 0.1);
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255,255,255,0.1);
+        }
+
+        /* 타이포그래피 */
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .card-desc {
+            font-size: 0.95rem;
+            font-weight: 300;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* === 벤토(도시락) 사이즈 변형 === */
+        
+        /* 1번 카드: 가로로 2칸 차지 */
+        .span-col-2 {
+            grid-column: span 2;
+        }
+
+        /* 2번 카드: 세로로 2칸 차지 */
+        .span-row-2 {
+            grid-row: span 2;
+            /* 세로가 기니까 배경 이미지를 넣어 고급스럽게 연출 */
+            background-image: linear-gradient(to bottom, transparent, rgba(0,0,0,0.8)), 
+                              url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2670&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* 세로 카드의 특수 배경을 유지하면서 조명을 주기 위한 처리 */
+        .span-row-2::before { z-index: 2; }
+        .span-row-2 .card-content { margin-top: auto; }
+
+        /* 반응형 처리 (모바일에서는 1열로 펴기) */
+        @media (max-width: 768px) {
+            .bento-grid {
+                grid-template-columns: 1fr;
+            }
+            .span-col-2, .span-row-2 {
+                grid-column: span 1;
+                grid-row: span 1;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 일반 웹사이트 '기능 소개' 섹션에 완벽하게 어울리는 레이아웃 -->
+    <div class="bento-grid" id="bento-grid">
+        
+        <!-- Card 1 (Wide) -->
+        <a href="#" class="bento-card span-col-2">
+            <div class="icon-wrapper">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+            </div>
+            <div class="card-content">
+                <h3 class="card-title">Global Infrastructure</h3>
+                <p class="card-desc">전 세계 어디서나 지연 없는 초고속 네트워크를 경험하세요. 우리의 인프라는 당신의 비즈니스를 멈추지 않게 합니다.</p>
+            </div>
+        </a>
+
+        <!-- Card 2 (Tall, with image) -->
+        <a href="#" class="bento-card span-row-2">
+            <div class="icon-wrapper">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"></path><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+            </div>
+            <div class="card-content">
+                <h3 class="card-title">Fintech Security</h3>
+                <p class="card-desc">가장 강력한 엔드투엔드 암호화 기술로 당신의 데이터를 안전하게 보호합니다.</p>
+            </div>
+        </a>
+
+        <!-- Card 3 (Standard) -->
+        <a href="#" class="bento-card">
+            <div class="icon-wrapper">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            </div>
+            <div class="card-content">
+                <h3 class="card-title">Real-time Analytics</h3>
+                <p class="card-desc">모든 데이터를 1초의 지연도 없이 실시간으로 분석하고 시각화합니다.</p>
+            </div>
+        </a>
+
+        <!-- Card 4 (Standard) -->
+        <a href="#" class="bento-card">
+            <div class="icon-wrapper">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg>
+            </div>
+            <div class="card-content">
+                <h3 class="card-title">Lightning Fast</h3>
+                <p class="card-desc">최적화된 코어 엔진을 통해 타사 대비 3배 빠른 렌더링 속도를 자랑합니다.</p>
+            </div>
+        </a>
+
+    </div>
+
+    <script>
+        const grid = document.getElementById('bento-grid');
+        const cards = document.querySelectorAll('.bento-card');
+
+        // 전체 그리드 위에서 마우스가 움직일 때마다 각 카드의 좌표를 업데이트
+        grid.addEventListener('mousemove', (e) => {
+            cards.forEach(card => {
+                // 브라우저 뷰포트 기준 카드의 위치와 크기 구하기
+                const rect = card.getBoundingClientRect();
+                
+                // 마우스의 X, Y 좌표를 해당 카드의 내부 좌표값으로 변환
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+
+                // 계산된 좌표를 CSS 변수(--mouse-x, --mouse-y)로 전달
+                // 이 변수가 CSS의 radial-gradient 중심점 역할을 함
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+    </script>
+</body>
+</html>

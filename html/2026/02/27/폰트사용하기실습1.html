@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <style>
+    *{
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
+    .container{
+      width: 304px;
+      height: 390px;
+      margin: 20px auto;
+      border: 1px solid rgb(128, 116, 116); 
+      padding: 28px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .googleBtn button > span{
+      font-family: "Roboto", sans-serif;
+      font-optical-sizing: auto;
+      font-weight: bold;
+      font-style: normal;
+      font-variation-settings:
+        "wdth" 100;
+      font-size: 14px;
+    }
+    .googleBtn > button {
+      border: 1px  black solid;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      background: none;
+      justify-content: center;
+      cursor: pointer;
+      height: 44px;
+      width: 228px;
+    }
+    .or{
+      font-family: "Roboto", sans-serif;
+      font-optical-sizing: auto;
+      font-weight: bold;
+      font-style: normal;
+      font-variation-settings:
+        "wdth" 100;
+      font-size: 14px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .inputarea > input{
+      width: 228px;
+      height: 44px;
+      background-color: #eaeaea;
+      border: 1px solid #bcacac;
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
+    }
+    .inputarea{
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .loginBtn > button{
+      display: flex;
+      align-items: center;
+      background: #373f3c;
+      gap: 5px;
+      justify-content: center;
+      cursor: pointer;
+      height: 44px;
+      width: 228px;      
+      color: #ffffff;
+      font-family: "Roboto", sans-serif;
+      font-optical-sizing: auto;
+      font-style: normal;
+      font-variation-settings:
+        "wdth" 100;
+      font-size: 14px;
+    }
+    .main{
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .findPw{
+      font-family: "Roboto", sans-serif;
+      font-optical-sizing: auto;
+      font-style: normal;
+      font-variation-settings:
+        "wdth" 100;
+      font-size: 14px;
+      color: #2c3432;
+      text-align: center;      
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="main">
+      <div class="googleBtn">
+        <button>
+          <img src="../images/Notion/google.svg" width="20px" height="20px">
+          <span>Log in with Google</span>
+        </button>
+      </div>
+      <div class="or">
+        <p>or</p>
+      </div>
+      <div class="inputarea">
+        <input type="text" placeholder="Username">
+        <input type="password" placeholder="Password">
+      </div>
+      <div class="loginBtn">
+        <button>LOGIN</button>
+      </div>
+      <div class="findPw">
+        <span>Forgot your password?</span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

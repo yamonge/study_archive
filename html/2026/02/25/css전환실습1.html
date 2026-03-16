@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    *{
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
+    .header{
+      text-align: center;
+      padding-top: 20px;
+    }
+    .container{
+      width: 80%;
+      margin: 0 auto;
+      display: flex;
+      gap: 20px;
+      flex: 1;
+      padding-top: 40px;
+      justify-content: center;
+    }
+    .postbox > img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .postbox{
+      position: relative;
+    }
+    .postbox:hover .explainbox{
+      opacity: 1;
+      height: 100%;
+    }
+    .explainbox{
+      position: absolute;
+      width: 100%;
+      height: 0%;
+      bottom: 0;
+      color: white;
+      opacity: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      transition: 0.8s 0.2s all ease-in-out;
+    }
+  </style>
+</head>
+<body>
+  <div class="header"><h2>신상품 목록</h2></div>
+  <div class="container">
+    <div class="postbox">
+      <img src="../images/prod1.jpg">
+      <div class="explainbox">
+        <h3>상품1</h3>
+        <p>상품 1 설명 텍스트</p>
+        <p>가격: 12,345원</p>
+      </div>      
+    </div>
+    <div class="postbox">
+      <img src="../images/prod2.jpg">
+      <div class="explainbox">
+        <h3>상품2</h3>
+        <p>상품 2 설명 텍스트</p>
+        <p>가격: 12,345원</p>
+      </div>
+    </div>
+    <div class="postbox">
+      <img src="../images/prod3.jpg">
+      <div class="explainbox">
+        <h3>상품3</h3>
+        <p>상품 3 설명 텍스트</p>
+        <p>가격: 12,345원</p>
+      </div>      
+    </div>        
+  </div>
+</body>
+</html>

@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Award-Winning Concept Menu : Luminous Obelisk</title>
+    <!-- 고급스러운 무드를 위한 폰트 로드 -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;800&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #030305;
+            --transition-bounce: 0.8s cubic-bezier(0.22, 1, 0.36, 1); /* 극도로 부드러운 아코디언 모션 */
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-color);
+            color: #ffffff;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* 은은한 노이즈 텍스처 배경 */
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+        }
+
+        /* 마우스를 따라다니는 배경 빛망울 */
+        #ambient-light {
+            position: fixed;
+            width: 50vw;
+            height: 50vw;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            filter: blur(120px);
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 0;
+            transition: background 0.8s ease;
+        }
+
+        /* 메인 컨테이너 */
+        .gallery-container {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            gap: 16px;
+            height: 70vh;
+            max-height: 700px;
+            min-height: 450px;
+        }
+
+        /* 개별 기둥 (오벨리스크) */
+        .pillar {
+            position: relative;
+            width: 80px; /* 닫혀있을 때 얇은 폭 */
+            border-radius: 40px;
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            cursor: pointer;
+            overflow: hidden;
+            transition: width var(--transition-bounce), 
+                        border-color 0.5s ease,
+                        box-shadow 0.5s ease;
+            
+            /* 3D 패럴랙스를 위한 원근감 세팅 */
+            perspective: 1200px;
+        }
+
+        /* 내부 배경 그라디언트 효과 */
+        .pillar::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(var(--theme), 0.05) 0%, rgba(var(--theme), 0.3) 100%);
+            opacity: 0;
+            transition: opacity 0.8s ease;
+            z-index: 0;
+        }
+
+        /* 기둥이 선택되었을 때(확장) */
+        .pillar.active {
+            width: 500px; /* 열렸을 때 폭 넓어짐 */
+            border-color: rgba(var(--theme), 0.4);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5),
+                        0 0 40px rgba(var(--theme), 0.15) inset;
+        }
+
+        .pillar.active::before {
+            opacity: 1;
+        }
+
+        /* 닫혀있을 때 보이는 세로 텍스트 */
+        .vertical-title {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%) rotate(180deg);
+            writing-mode: vertical-rl;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: 4px;
+            color: rgba(255, 255, 255, 0.4);
+            white-space: nowrap;
+            transition: opacity 0.4s ease, transform 0.8s ease;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .pillar.active .vertical-title {
+            opacity: 0;
+            transform: translate(-50%, -50%) rotate(180deg) scale(0.8);
+        }
+
+        /* 확장 시 나타나는 내부 콘텐츠 컨테이너 */
+        .content-wrapper {
+            position: absolute;
+            inset: 0;
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            opacity: 0;
+            pointer-events: none;
+            /* 3D 자식 요소들의 원근감을 보존 */
+            transform-style: preserve-3d;
+            transition: opacity 0.6s ease;
+            z-index: 5;
+        }
+
+        .pillar.active .content-wrapper {
+            opacity: 1;
+            pointer-events: auto;
+            transition-delay: 0.2s;
+        }
+
+        /* 거대한 넘버링 워터마크 */
+        .bg-number {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 10rem;
+            font-weight: 800;
+            line-height: 0.8;
+            color: rgba(255, 255, 255, 0.04);
+            transform: translateZ(-30px); /* 3D 공간에서 뒤로 밀어냄 */
+            user-select: none;
+        }
+
+        /* 타이틀 */
+        .title {
+            font-size: 3rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+            transform: translateZ(40px); /* 화면 앞으로 튀어나옴 */
+            text-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        /* 서브 텍스트 */
+        .desc {
+            font-size: 1.1rem;
+            font-weight: 300;
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 280px;
+            margin-bottom: 30px;
+            transform: translateZ(20px);
+        }
+
+        /* 버튼 영역 */
+        .explore-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-weight: 500;
+            color: #fff;
+            cursor: pointer;
+            width: fit-content;
+            transform: translateZ(30px);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .explore-btn:hover {
+            background: rgba(var(--theme), 0.8);
+            border-color: rgba(var(--theme), 1);
+            box-shadow: 0 0 20px rgba(var(--theme), 0.5);
+        }
+
+        .explore-btn svg {
+            width: 18px;
+            height: 18px;
+            transition: transform 0.3s ease;
+        }
+
+        .explore-btn:hover svg {
+            transform: translateX(5px);
+        }
+        
+        /* 빛나는 가로선 장식 */
+        .neon-line {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 4px;
+            width: 0%;
+            background: rgb(var(--theme));
+            box-shadow: 0 0 20px rgb(var(--theme));
+            transition: width 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .pillar.active .neon-line {
+            width: 100%;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- 마우스를 따라가는 전역 빛망울 -->
+    <div id="ambient-light"></div>
+
+    <main class="gallery-container">
+        
+        <!-- Pillar 1 : Cyber Cyan -->
+        <div class="pillar active" style="--theme: 0, 240, 255;">
+            <div class="vertical-title">INNOVATION</div>
+            <div class="content-wrapper">
+                <div class="bg-number">01</div>
+                <h2 class="title">Future<br>Innovation</h2>
+                <p class="desc">경계를 허무는 기술과 디자인, 새로운 차원의 디지털 경험을 탐험하세요.</p>
+                <div class="explore-btn">
+                    <span>Discover</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                </div>
+            </div>
+            <div class="neon-line"></div>
+        </div>
+
+        <!-- Pillar 2 : Neon Magenta -->
+        <div class="pillar" style="--theme: 255, 40, 100;">
+            <div class="vertical-title">CREATIVITY</div>
+            <div class="content-wrapper">
+                <div class="bg-number">02</div>
+                <h2 class="title">Limitless<br>Creativity</h2>
+                <p class="desc">틀에 얽매이지 않는 독창적인 아이디어로 무한한 가능성을 그려냅니다.</p>
+                <div class="explore-btn">
+                    <span>Discover</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                </div>
+            </div>
+            <div class="neon-line"></div>
+        </div>
+
+        <!-- Pillar 3 : Royal Purple -->
+        <div class="pillar" style="--theme: 150, 60, 255;">
+            <div class="vertical-title">AESTHETICS</div>
+            <div class="content-wrapper">
+                <div class="bg-number">03</div>
+                <h2 class="title">Visual<br>Aesthetics</h2>
+                <p class="desc">미학적 완벽함을 추구하며, 빛과 그림자가 춤추는 공간을 설계합니다.</p>
+                <div class="explore-btn">
+                    <span>Discover</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                </div>
+            </div>
+            <div class="neon-line"></div>
+        </div>
+
+        <!-- Pillar 4 : Amber Gold -->
+        <div class="pillar" style="--theme: 255, 180, 0;">
+            <div class="vertical-title">EXPERIENCE</div>
+            <div class="content-wrapper">
+                <div class="bg-number">04</div>
+                <h2 class="title">Immersive<br>Experience</h2>
+                <p class="desc">사용자를 완벽히 몰입시키는 직관적이고 감각적인 인터페이스.</p>
+                <div class="explore-btn">
+                    <span>Discover</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                </div>
+            </div>
+            <div class="neon-line"></div>
+        </div>
+
+        <!-- Pillar 5 : Toxic Emerald -->
+        <div class="pillar" style="--theme: 10, 255, 120;">
+            <div class="vertical-title">EVOLUTION</div>
+            <div class="content-wrapper">
+                <div class="bg-number">05</div>
+                <h2 class="title">System<br>Evolution</h2>
+                <p class="desc">지속적인 진화를 통해 웹 생태계의 패러다임을 혁신적으로 변화시킵니다.</p>
+                <div class="explore-btn">
+                    <span>Discover</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                </div>
+            </div>
+            <div class="neon-line"></div>
+        </div>
+
+    </main>
+
+    <script>
+        const pillars = document.querySelectorAll('.pillar');
+        const ambientLight = document.getElementById('ambient-light');
+        
+        // 초기 배경색 셋팅 (첫 번째 기둥의 색상)
+        const initColor = pillars[0].style.getPropertyValue('--theme');
+        ambientLight.style.background = `rgba(${initColor}, 0.15)`;
+
+        // 마우스 커서 따라가기 이벤트
+        window.addEventListener('mousemove', (e) => {
+            ambientLight.style.left = `${e.clientX}px`;
+            ambientLight.style.top = `${e.clientY}px`;
+        });
+
+        pillars.forEach(pillar => {
+            // 마우스 오버 시 기둥 활성화 및 앰비언트 라이트 색상 변경
+            pillar.addEventListener('mouseenter', () => {
+                // 이전 active 클래스 제거
+                pillars.forEach(p => p.classList.remove('active'));
+                
+                // 현재 기둥 활성화
+                pillar.classList.add('active');
+                
+                // 배경 라이팅 색상 동기화
+                const themeColor = pillar.style.getPropertyValue('--theme');
+                ambientLight.style.background = `rgba(${themeColor}, 0.15)`;
+            });
+
+            // 내부 3D 패럴랙스 (마우스 방향에 따라 콘텐츠가 입체적으로 기울어짐)
+            pillar.addEventListener('mousemove', (e) => {
+                if(!pillar.classList.contains('active')) return;
+
+                const wrapper = pillar.querySelector('.content-wrapper');
+                const rect = pillar.getBoundingClientRect();
+                
+                // 기둥 내부에서의 마우스 좌표 계산
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                // 기둥의 중심점
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                // 중심점 기준 -1 ~ 1 비율 산출하여 회전 각도(최대 10도) 계산
+                const rotateX = ((y - centerY) / centerY) * -10; 
+                const rotateY = ((x - centerX) / centerX) * 10;
+                
+                // CSS transform 적용 (Z축을 띄워 입체감 극대화)
+                wrapper.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+            });
+
+            // 마우스가 떠나면 3D 기울기 초기화
+            pillar.addEventListener('mouseleave', () => {
+                const wrapper = pillar.querySelector('.content-wrapper');
+                wrapper.style.transform = `rotateX(0deg) rotateY(0deg)`;
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+#main-title{
+  color: blue;
+}
+.tagline{
+  font-style: italic;
+  color: rgb(175, 175, 175);
+}
+.highlight{
+  background-color: #fff9c4;
+  border: 1px black solid;
+}
+section > h2{
+  font-size: 24px;
+  text-decoration: underline;
+}
+.skill-item{
+  display: flex;
+  justify-content: center;
+  background-color: #fff9c4;
+}
+.project + p{
+  color: purple;
+}
+footer > p{
+  font-size: 14px;
+}
+.projects .project:first-of-type{
+  background-color: #7438e2;
+}
+.projects .project:last-of-type > h3{
+  font-weight: bold;
+  font-size: 40px;
+}
+ul{
+  list-style: none;
+}

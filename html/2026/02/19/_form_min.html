@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="utf-8">
+        <title>실습2 - 폼 최소</title>
+    </head>
+    <body>
+        <h1>가입 화면(폼 맛보기)</h1>
+        <p>전송은 안 해도 됩니다. "입력 UI 만들기"가 목표!</p>
+        <hr>
+        <form action="#"method="get">
+            <label for="user">아이디</label><br>
+            <input id="user" type="text" name="userid"
+                placeholder="아이디 입력" required>
+            <p>
+                <label for="mail">이메일</label><br>
+                <input id="mail" type="email" name="email"
+                    placeholder="example@domain.com">
+            </p>
+            <p>
+                <label for="pw">비밀번호</label><br>
+                <input id="pw" type="password" name="password"
+                    placeholder="비밀번호 입력">
+            </p>
+            <p>
+                관심 분야(라디오: 하나만 선택)<br>
+                <input id="r1" type="radio" name="field" value="fe" checked>
+                <label for="r1">프론트</label>
+                <label for="r2">
+                    <input id="r2" type="radio" name="field" value="be">
+                    백엔드
+                </label>
+            </p>
+            <p>
+                <input id="c1" type="checkbox" name="agree" value="yes" required>
+                <label for="c1">약관에 동의합니다(필수)</label>
+            </p>
+            <p>
+                <input type="submit" value="가입하기">
+            </p>
+        </form>
+    </body>
+</html>

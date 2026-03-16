@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    h2{
+      font-family: serif;
+      font-size: 2em;
+      font-weight: 900;
+      letter-spacing: -1px;
+    }
+    .byline{
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #999;
+    }
+    p{
+      font-family: sans-serif;
+      line-height: 0.5;
+      color: #444;
+    }
+    p::first-letter{
+      font-size: 3em;
+      float: left;
+      font-weight: bold;
+      color: red;
+    }
+    .highlight{
+      background-color: rgba(255, 255, 0, 0.5);
+    }
+    .underline-fancy{
+      text-decoration-line: underline;
+      text-decoration-style: wavy;
+    }
+  </style>
+</head>
+<body>
+  <article>
+    <h2>CSS가 바꾼 웹 디자인의 역사</h2>
+    <p class="byline">by Kim Coder · Web Design Weekly</p><br>
+    <p>C&nbsp;&nbsp; SS는 <span class="highlight">콘텐츠와 표현을 분리</span>하는
+    혁신적인 기술입니다. 오늘날 우리가 사용하는 웹 페이지는 
+    <span class="underline-fancy">CSS 없이는 상상할 수 없습니다.</span></p>
+  </article>
+</body>
+</html>

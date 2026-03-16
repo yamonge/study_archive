@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .container{
+      height: 200px;
+      background: repeating-linear-gradient(45deg, #333, #333 10px, #fff 10px, #fff 20px);
+      align-items: center;
+      display: flex;
+      background-attachment: fixed;
+      z-index: -1;
+    }
+    .sub-container{
+      background: linear-gradient(rgba(66, 35, 98, 0.8), rgba(66, 35, 98, 0.8));
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background-position: center;
+      text-align: center;
+
+    }
+    h3, p{
+      margin: 5px;
+    }
+    h3{
+      color: white;
+    }
+    p{
+      color: rgba(255,255,255,.6)
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="sub-container">
+      <h3>웹 디자인의 미래</h3>
+      <p>CSS 배경 속성으로 만드는 인상적인 레이아웃</p>
+    </div>
+  </div>
+</body>
+</html>

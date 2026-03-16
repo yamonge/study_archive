@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .alertbox{
+      width: 75px;
+      height: 75px;
+      border-radius: 15px;
+      background: blue;
+      position: relative;
+    }
+    .dot{
+      position: absolute;
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      background-color: red;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      top: -5px;
+      right: -5px;
+      color: white;
+    }
+    .container{
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="alertbox">
+      <div class="dot">1</div>
+    </div>
+      <div class="alertbox">
+      <div class="dot">2</div>
+    </div>
+      <div class="alertbox">
+      <div class="dot">3</div>
+    </div>
+  </div>
+</body>
+</html>

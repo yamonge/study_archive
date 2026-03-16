@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Award-Winning Concept : Kinetic Phantom Canvas</title>
+    
+    <!-- 압도적인 분위기를 위한 폰트 2종 (현대적인 Sans + 우아한 Serif) -->
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Playfair+Display:ital,wght@1,500&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #050505;
+            --text-color: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            cursor: none; /* 기본 커서 숨김 */
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Syne', sans-serif;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.8s ease;
+        }
+
+        /* 배경 노이즈 텍스처 (고급감 극대화) */
+        body::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* =========================================
+           커스텀 마우스 커서
+        ========================================= */
+        .cursor-dot {
+            position: fixed;
+            top: 0; left: 0;
+            width: 10px; height: 10px;
+            background: white;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            mix-blend-mode: difference;
+            transition: width 0.3s, height 0.3s, background 0.3s;
+        }
+
+        .cursor-ring {
+            position: fixed;
+            top: 0; left: 0;
+            width: 40px; height: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9998;
+            transform: translate(-50%, -50%);
+            transition: width 0.4s, height 0.4s, border-color 0.4s;
+        }
+
+        /* =========================================
+           마우스를 따라다니는 키네틱 이미지 캔버스
+        ========================================= */
+        .media-tracker {
+            position: fixed;
+            top: 0; left: 0;
+            width: 380px;
+            height: 480px;
+            pointer-events: none;
+            z-index: 1; /* 글씨보다 뒤에 위치 */
+            opacity: 0; 
+            transform: translate(-50%, -50%) scale(0.8);
+            transition: opacity 0.5s cubic-bezier(0.25, 1, 0.5, 1), transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+            overflow: hidden;
+            border-radius: 20px;
+        }
+
+        .media-tracker.active {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1); /* JS가 위치를 덮어씌우지만 등장 애니메이션 용도 */
+        }
+
+        .media-image {
+            position: absolute;
+            inset: -10%; /* 내부 패럴랙스를 위해 크기를 약간 키움 */
+            width: 120%;
+            height: 120%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 0.4s ease, transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+            transform: scale(1.1);
+        }
+
+        .media-image.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* =========================================
+           메인 타이포그래피 메뉴
+        ========================================= */
+        .menu {
+            position: relative;
+            z-index: 10; /* 이미지보다 앞에 위치 */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            /* 텍스트와 이미지가 겹칠 때 색상 반전 (초초초 고급 효과) */
+            mix-blend-mode: difference;
+        }
+
+        .menu-item {
+            position: relative;
+            font-size: 7.5vw;
+            font-weight: 800;
+            line-height: 0.9;
+            text-transform: uppercase;
+            cursor: pointer;
+            color: transparent; /* 기본은 투명 */
+            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.25); /* 얇은 윤곽선만 보이게 */
+            transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+            padding: 10px 40px;
+            display: flex;
+            align-items: center;
+        }
+
+        /* 호버 시 윤곽선이 흰색으로 채워짐 */
+        .menu-item:hover {
+            color: #ffffff;
+            -webkit-text-stroke: 1px #ffffff;
+            transform: scale(1.05); /* 살짝 커짐 */
+            letter-spacing: 2px;
+        }
+
+        /* 다른 항목이 호버되었을 때 선택 안 된 항목들은 흐려지고 작아짐 */
+        .menu:hover .menu-item:not(:hover) {
+            opacity: 0.15;
+            transform: scale(0.95);
+        }
+
+        /* 메뉴 옆에 붙는 우아한 이탤릭 숫자 (01, 02...) */
+        .item-number {
+            position: absolute;
+            left: -20px;
+            top: 20px;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            font-weight: 500;
+            font-style: italic;
+            color: #ffffff;
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: all 0.4s ease;
+        }
+
+        .menu-item:hover .item-number {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* 메뉴 옆에 붙는 설명 텍스트 */
+        .item-desc {
+            position: absolute;
+            right: -20px;
+            bottom: 20px;
+            font-family: 'Playfair Display', serif;
+            font-size: 1rem;
+            font-weight: 500;
+            font-style: italic;
+            color: #000000;
+            white-space: nowrap;
+            opacity: 0;
+            transform: translateX(20px);
+            transition: all 0.4s ease;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .menu-item:hover .item-desc {
+            opacity: 1;
+            transform: translateX(0);
+            transition-delay: 0.1s;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- 커스텀 커서 -->
+    <div class="cursor-dot" id="cursor-dot"></div>
+    <div class="cursor-ring" id="cursor-ring"></div>
+
+    <!-- 키네틱 이미지 캔버스 (마우스 따라다님) -->
+    <div class="media-tracker" id="media-tracker">
+        <!-- 하이퀄리티 Unsplash 이미지 사용 -->
+        <div class="media-image" style="background-image: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop');"></div>
+        <div class="media-image" style="background-image: url('https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=2670&auto=format&fit=crop');"></div>
+        <div class="media-image" style="background-image: url('https://images.unsplash.com/photo-1536924940846-227afb31e2a5?q=80&w=2666&auto=format&fit=crop');"></div>
+        <div class="media-image" style="background-image: url('https://images.unsplash.com/photo-1633511090164-b4bf0f43899f?q=80&w=2670&auto=format&fit=crop');"></div>
+    </div>
+
+    <!-- 메인 네비게이션 -->
+    <nav class="menu">
+        <div class="menu-item" data-index="0" data-bg="#1a0b12">
+            <span class="item-number">01</span>
+            PORTFOLO
+        </div>
+        <div class="menu-item" data-index="1" data-bg="#0b121a">
+            <span class="item-number">02</span>
+            LABORATORY
+        </div>
+        <div class="menu-item" data-index="2" data-bg="#0b1a12">
+            <span class="item-number">03</span>
+            EXHIBITION
+        </div>
+        <div class="menu-item" data-index="3" data-bg="#1a180b">
+            <span class="item-number">04</span>
+            CONTACT
+        </div>
+    </nav>
+
+    <script>
+        const cursorDot = document.getElementById('cursor-dot');
+        const cursorRing = document.getElementById('cursor-ring');
+        const mediaTracker = document.getElementById('media-tracker');
+        const mediaImages = document.querySelectorAll('.media-image');
+        const menuItems = document.querySelectorAll('.menu-item');
+        
+        // Lerp (선형 보간) 함수: 부드러운 애니메이션의 핵심
+        const lerp = (start, end, factor) => start + (end - start) * factor;
+
+        // 마우스 좌표 및 타겟 좌표 셋팅
+        let mouseX = window.innerWidth / 2;
+        let mouseY = window.innerHeight / 2;
+        
+        let trackerX = mouseX;
+        let trackerY = mouseY;
+        let ringX = mouseX;
+        let ringY = mouseY;
+        
+        // 속도 감지를 위한 이전 좌표 기록
+        let prevTrackerX = trackerX;
+
+        // 마우스 이동 감지
+        window.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            
+            // 닷(Dot)은 지연 없이 즉각적으로 따라감
+            cursorDot.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
+        });
+
+        // 60fps 애니메이션 렌더링 루프
+        const render = () => {
+            // 1. 커서 링 부드럽게 따라오기 (factor 0.15)
+            ringX = lerp(ringX, mouseX, 0.15);
+            ringY = lerp(ringY, mouseY, 0.15);
+            cursorRing.style.transform = `translate(${ringX}px, ${ringY}px) translate(-50%, -50%)`;
+
+            // 2. 미디어 트래커 부드럽게 따라오기 (factor 0.08 - 무겁게 따라오는 느낌)
+            trackerX = lerp(trackerX, mouseX, 0.08);
+            trackerY = lerp(trackerY, mouseY, 0.08);
+            
+            // ★ 마우스 속도 계산 (현재 X위치 - 이전 X위치)
+            const velocityX = trackerX - prevTrackerX;
+            prevTrackerX = trackerX; // 업데이트
+            
+            // 속도에 비례하여 이미지 왜곡(Skew) 각도 생성 (최대 -15도 ~ 15도로 제한)
+            let skewAngle = velocityX * 0.2;
+            if (skewAngle > 15) skewAngle = 15;
+            if (skewAngle < -15) skewAngle = -15;
+
+            // 위치 이동(Translate)과 동시에 속도에 의한 휨(Skew) 적용
+            mediaTracker.style.transform = `translate(${trackerX}px, ${trackerY}px) translate(-50%, -50%) skewX(${skewAngle}deg)`;
+            
+            // 내부 이미지 패럴랙스 (겉 박스가 움직이는 반대 방향으로 살짝 밀어줌)
+            const parallaxX = (trackerX - window.innerWidth / 2) * -0.05;
+            const parallaxY = (trackerY - window.innerHeight / 2) * -0.05;
+            
+            mediaImages.forEach(img => {
+                // scale(1.1)을 유지하면서 translate 적용
+                if (img.classList.contains('active')) {
+                    img.style.transform = `scale(1) translate(${parallaxX}px, ${parallaxY}px)`;
+                }
+            });
+
+            requestAnimationFrame(render);
+        };
+        
+        // 애니메이션 루프 시작
+        render();
+
+        // 메뉴 호버 이벤트 설정
+        menuItems.forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                // 커서 디자인 변경 (닷 확대, 링 숨김)
+                cursorDot.style.width = '60px';
+                cursorDot.style.height = '60px';
+                cursorDot.style.background = 'rgba(255,255,255,0.1)';
+                cursorDot.style.backdropFilter = 'blur(4px)';
+                cursorRing.style.opacity = '0';
+
+                // 미디어 트래커 나타남
+                mediaTracker.classList.add('active');
+                
+                // 데이터 속성 가져오기
+                const index = item.getAttribute('data-index');
+                const bgColor = item.getAttribute('data-bg');
+                
+                // 배경색을 현재 메뉴 테마에 맞게 부드럽게 변경
+                document.body.style.backgroundColor = bgColor;
+                
+                // 해당 인덱스의 이미지만 활성화 (크로스페이드 효과)
+                mediaImages.forEach((img, i) => {
+                    if(i == index) {
+                        img.classList.add('active');
+                    } else {
+                        img.classList.remove('active');
+                    }
+                });
+            });
+
+            item.addEventListener('mouseleave', () => {
+                // 커서 디자인 원상복구
+                cursorDot.style.width = '10px';
+                cursorDot.style.height = '10px';
+                cursorDot.style.background = 'white';
+                cursorDot.style.backdropFilter = 'none';
+                cursorRing.style.opacity = '1';
+
+                // 미디어 트래커 숨김
+                mediaTracker.classList.remove('active');
+                
+                // 배경색 원래대로
+                document.body.style.backgroundColor = 'var(--bg-color)';
+            });
+        });
+    </script>
+</body>
+</html>

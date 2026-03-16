@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    *{
+      box-sizing: border-box;
+      padding: 0;
+      margin: 0;
+    }
+    .container{
+      display: flex;
+      width: 80%;
+      margin: 0 auto;
+      padding-top: 20px;
+    }
+    .nav-container{
+      width: 20%;
+      position: sticky;
+      display: flex;
+      top: 10px;
+      height: fit-content;
+    }
+    .main-container{
+      width: 80%;
+      display: flex;
+      flex-direction: column;
+      gap: 50px;
+    }
+    ol{
+      list-style: decimal-leading-zero;
+      list-style-position: inside;
+      padding-left: 0;
+    }
+    ol > li{
+      padding-top: 5px;
+    }
+    a{
+      text-decoration: none;
+      color: black;
+    }
+    .section{
+      width: 100%;
+    }
+    .section > h3{
+      padding: 7px 0;
+    }
+    .postbox{
+      border-top: 2px rgb(133, 88, 88) solid;
+      padding: 20px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="nav-container">
+      <ol><p>📋목차</p>
+        <li><a href="#1">static</a></li>
+        <li><a href="#2">relative</a></li>
+        <li><a href="#3">absolute</a></li>
+        <li><a href="#4">float</a></li>
+        <li><a href="#5">sticky</a></li>
+        <li><a href="#6">z-index</a></li>
+      </ol>
+    </div>
+    <div class="main-container">
+      <div class="section" id="1">
+        <h3>01. static</h3>
+        <div class="postbox">
+          <p>기본값입니다. 문서의 일반 흐름에 따라 위에서 아래로 배치됩니다. top, left 등의 위치 속성이 적용되지 않습니다.</p>
+        </div>
+      </div>
+      <div class="section" id="2">
+        <h3>02. relative</h3>
+        <div class="postbox">
+          <p>자신의 원래 위치를 기준으로 이동합니다. 이동해도 원래 자리는 그대로 유지됩니다. 자식 요소에 absolute를 적용할 때 기준 부모로 주로 사용합니다.</p>
+        </div>
+      </div>
+      <div class="section" id="3">
+        <h3>03. absolute</h3>
+        <div class="postbox">
+          <p>position이 static이 아닌 가장 가까운 부모 요소를 기준으로 위치를 잡습니다. 문서 흐름에서 빠져나옵니다. 부모에 relative가 없으면 html 전체 기준으로 위치가 잡힙니다.</p>
+        </div>
+      </div>
+      <div class="section" id="4">
+        <h3>04. fixed</h3>
+        <div class="postbox">
+          <p>뷰포트(브라우저 화면)를 기준으로 고정됩니다. 이 페이지 상단의 네비게이션 바가 fixed입니다. 스크롤을 내려도 항상 같은 위치에 고정되어 있습니다.</p>
+        </div>
+      </div>
+      <div class="section" id="5">
+        <h3>05. sticky</h3>
+        <div class="postbox">
+          <p>평소에는 일반 흐름을 따르다가, 스크롤이 지정한 위치에 도달하면 그 자리에 고정됩니다. 왼쪽 목차가 sticky입니다. 스크롤을 내리면서 확인해 보세요!</p>
+        </div>
+      </div>
+      <div class="section" id="6">
+        <h3>06. z-index</h3>
+        <div class="postbox">
+          <p>요소들이 겹칠 때 어떤 요소가 앞에 올지를 결정합니다. 값이 클수록 앞에 표시됩니다. position이 static이 아닌 요소에만 적용됩니다.</p>
+        </div>
+      </div>                  
+    </div>
+  </div>
+</body>
+</html>

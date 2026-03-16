@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<!-- 선택자는 스타일을 적용할 HTML 요소를 지정하는 영역 -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    /* 전체 선택자 */
+    *{
+      color: red;
+    }
+    /* 태그 선택자 */
+    div{
+      background-color: royalblue;
+    }
+    .movie1{
+      background-color: orangered;
+    }
+    .movie2{
+      background-color: orange;
+    }
+    #container{
+      width: 500px;
+    }
+    .movie1 > p {
+      background-color: aliceblue;
+    }
+  </style>
+</head>
+<body>
+  <h1>영화 소개 페이지</h1>
+  <div id="container">
+    <div class="movie1">
+      <h3>왕과 사는 남자</h3>
+      <p>단종 이야기</p>
+
+    </div>
+    <div class="movie2">
+      <h3>넘버원</h3>
+      <p>최우식 주연 영화</p>
+    </div>
+    <p>영화 소개 페이지 끝</p>
+  </div>
+</body>
+</html>

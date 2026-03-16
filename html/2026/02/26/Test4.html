@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spatial Holographic UI : Silicon Valley Standard</title>
+    
+    <!-- 세련된 실리콘밸리 느낌의 폰트 -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;500;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-dark: #000000;
+            --primary: #ffffff;
+            --accent-1: #6366f1; /* Indigo */
+            --accent-2: #ec4899; /* Pink */
+            --accent-3: #10b981; /* Emerald */
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-dark);
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* 원근감을 만들기 위해 body에 perspective 부여 */
+            perspective: 1200px;
+            color: var(--primary);
+        }
+
+        /* =========================================
+           뒤에서 따라다니는 액체 형태의 빛(Orb)
+        ========================================= */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px); /* 심하게 블러처리하여 빛처럼 보이게 함 */
+            opacity: 0.6;
+            pointer-events: none;
+            z-index: 0;
+            transform: translate(-50%, -50%);
+        }
+
+        .orb-1 { width: 400px; height: 400px; background: var(--accent-1); }
+        .orb-2 { width: 350px; height: 350px; background: var(--accent-2); }
+        .orb-3 { width: 250px; height: 250px; background: var(--accent-3); }
+
+        /* =========================================
+           중앙 3D 홀로그래픽 카드
+        ========================================= */
+        .spatial-card {
+            position: relative;
+            width: 800px;
+            height: 450px;
+            max-width: 90vw;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            z-index: 10;
+            
+            /* 핵심: 하위 요소들이 3D 공간(Z축)을 가질 수 있도록 설정 */
+            transform-style: preserve-3d;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.05);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 60px;
+        }
+
+        /* 표면에 반사되는 빛 (Glare) */
+        .card-glare {
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            pointer-events: none;
+            background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.15), transparent 60%);
+            mix-blend-mode: overlay;
+            opacity: 0.5;
+            transition: opacity 0.3s;
+            transform: translateZ(1px);
+        }
+
+        /* =========================================
+           카드 내부 요소들 (Z축 원근감 부여)
+        ========================================= */
+        
+        /* 배지 (가장 높이 떠오름) */
+        .badge {
+            align-self: flex-start;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+            /* 허공으로 80px 띄움 */
+            transform: translateZ(80px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        /* 메인 타이틀 (중간 정도 띄움) */
+        .title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            margin-bottom: 16px;
+            transform: translateZ(50px);
+            text-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .title span {
+            background: linear-gradient(to right, #ffffff, #a5b4fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* 서브 텍스트 (낮게 띄움) */
+        .desc {
+            font-size: 1.1rem;
+            font-weight: 300;
+            color: rgba(255, 255, 255, 0.6);
+            max-width: 450px;
+            line-height: 1.6;
+            margin-bottom: 40px;
+            transform: translateZ(30px);
+        }
+
+        /* =========================================
+           자석(Magnetic) CTA 버튼
+        ========================================= */
+        .btn-wrapper {
+            align-self: flex-start;
+            /* 버튼 전체 그룹 띄우기 */
+            transform: translateZ(60px); 
+            position: relative;
+        }
+
+        .magnetic-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: #ffffff;
+            color: #000000;
+            padding: 16px 32px;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            border: none;
+            /* 자석 효과를 위한 트랜지션 (js에서 transform 조작) */
+            transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.3s;
+            box-shadow: 0 10px 20px rgba(255,255,255,0.1);
+        }
+
+        .magnetic-btn:hover {
+            box-shadow: 0 15px 30px rgba(255,255,255,0.25);
+        }
+
+        .magnetic-btn svg {
+            width: 18px;
+            height: 18px;
+            transition: transform 0.3s;
+        }
+
+        .magnetic-btn:hover svg {
+            transform: translateX(4px);
+        }
+
+        /* 둥둥 떠다니는 장식용 3D 아이콘 */
+        .floating-icon {
+            position: absolute;
+            right: 60px;
+            top: 50%;
+            transform-style: preserve-3d;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.2), rgba(255,255,255,0.05));
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            /* 허공으로 가장 높이(100px) 띄움 */
+            transform: translateY(-50%) translateZ(100px) rotate(-15deg);
+            box-shadow: 20px 20px 40px rgba(0,0,0,0.3);
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- 마우스를 부드럽게 따라다니는 빛무리들 -->
+    <div class="orb orb-1" id="orb-1"></div>
+    <div class="orb orb-2" id="orb-2"></div>
+    <div class="orb orb-3" id="orb-3"></div>
+
+    <!-- 메인 3D 홀로그래픽 카드 -->
+    <div class="spatial-card" id="card">
+        <div class="card-glare" id="glare"></div>
+        
+        <div class="badge">Version 2.0</div>
+        
+        <h1 class="title">Next-Gen<br><span>Spatial Interface</span></h1>
+        
+        <p class="desc">일반적인 웹의 한계를 뛰어넘습니다.<br>애플리케이션과 사용자가 상호작용하는 완전히 새로운 차원의 디지털 경험을 만나보세요.</p>
+        
+        <div class="btn-wrapper">
+            <button class="magnetic-btn" id="mag-btn">
+                Get Started
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+            </button>
+        </div>
+
+        <!-- 카드 우측에 떠 있는 유리 큐브 장식 -->
+        <div class="floating-icon">
+            <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"></polygon><line x1="12" y1="22" x2="12" y2="15.5"></line><polyline points="22 8.5 12 15.5 2 8.5"></polyline><polyline points="2 15.5 12 8.5 22 15.5"></polyline><line x1="12" y1="2" x2="12" y2="8.5"></line></svg>
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // 1. 화면 전체 마우스 추적 -> 3D 카드 틸팅
+        // ==========================================
+        const card = document.getElementById('card');
+        const glare = document.getElementById('glare');
+        
+        // 부드러운 애니메이션을 위한 보간 함수(Lerp)
+        const lerp = (start, end, factor) => start + (end - start) * factor;
+
+        let mouseX = window.innerWidth / 2;
+        let mouseY = window.innerHeight / 2;
+        
+        // 카드의 목표 회전값과 현재 회전값
+        let targetRotateX = 0;
+        let targetRotateY = 0;
+        let currentRotateX = 0;
+        let currentRotateY = 0;
+
+        window.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+
+            // 마우스 위치를 화면 중앙 기준으로 -1 ~ 1 비율로 변환
+            const xVal = (mouseX / window.innerWidth - 0.5) * 2;
+            const yVal = (mouseY / window.innerHeight - 0.5) * 2;
+
+            // 최대 틸트 각도 설정 (너무 심하게 꺾이지 않도록 15도로 제한)
+            targetRotateX = yVal * -15; // 위로 가면 카드가 위를 보게
+            targetRotateY = xVal * 15;  // 오른쪽으로 가면 카드가 오른쪽을 보게
+            
+            // 카드 표면의 빛 반사 중심점 이동
+            glare.style.background = `radial-gradient(circle at ${mouseX}px ${mouseY}px, rgba(255, 255, 255, 0.15), transparent 60%)`;
+        });
+
+        // ==========================================
+        // 2. 자석 버튼 (Magnetic Button) 로직
+        // ==========================================
+        const magBtn = document.getElementById('mag-btn');
+        let btnTargetX = 0;
+        let btnTargetY = 0;
+        let btnCurrentX = 0;
+        let btnCurrentY = 0;
+        let isHoveringBtn = false;
+
+        magBtn.addEventListener('mousemove', (e) => {
+            const rect = magBtn.getBoundingClientRect();
+            // 버튼 중앙 좌표
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            
+            // 마우스가 버튼 중앙에서 얼마나 떨어져 있는지 계산 (강도 0.3)
+            btnTargetX = (e.clientX - centerX) * 0.3;
+            btnTargetY = (e.clientY - centerY) * 0.3;
+        });
+
+        magBtn.addEventListener('mouseenter', () => isHoveringBtn = true);
+        magBtn.addEventListener('mouseleave', () => {
+            isHoveringBtn = false;
+            btnTargetX = 0;
+            btnTargetY = 0;
+        });
+
+        // ==========================================
+        // 3. 백그라운드 빛(Orb) 추적 로직
+        // ==========================================
+        const orb1 = document.getElementById('orb-1');
+        const orb2 = document.getElementById('orb-2');
+        const orb3 = document.getElementById('orb-3');
+        
+        let orb1X = window.innerWidth / 2, orb1Y = window.innerHeight / 2;
+        let orb2X = window.innerWidth / 2, orb2Y = window.innerHeight / 2;
+        let orb3X = window.innerWidth / 2, orb3Y = window.innerHeight / 2;
+
+        // ==========================================
+        // 4. 통합 렌더링 루프 (초당 60프레임)
+        // ==========================================
+        const animate = () => {
+            // 카드 3D 회전 스무딩
+            currentRotateX = lerp(currentRotateX, targetRotateX, 0.05);
+            currentRotateY = lerp(currentRotateY, targetRotateY, 0.05);
+            card.style.transform = `rotateX(${currentRotateX}deg) rotateY(${currentRotateY}deg)`;
+
+            // 자석 버튼 스무딩
+            btnCurrentX = lerp(btnCurrentX, btnTargetX, 0.1);
+            btnCurrentY = lerp(btnCurrentY, btnTargetY, 0.1);
+            magBtn.style.transform = `translate(${btnCurrentX}px, ${btnCurrentY}px)`;
+
+            // 오브(빛) 이동 (각기 다른 무게감(factor)을 주어 유기적으로 움직이게 함)
+            orb1X = lerp(orb1X, mouseX, 0.02);
+            orb1Y = lerp(orb1Y, mouseY, 0.02);
+            orb1.style.left = `${orb1X}px`;
+            orb1.style.top = `${orb1Y}px`;
+
+            orb2X = lerp(orb2X, mouseX + 100, 0.015); // 마우스보다 약간 우측 아래
+            orb2Y = lerp(orb2Y, mouseY + 100, 0.015);
+            orb2.style.left = `${orb2X}px`;
+            orb2.style.top = `${orb2Y}px`;
+
+            orb3X = lerp(orb3X, mouseX - 150, 0.01); // 마우스보다 약간 좌측 위
+            orb3Y = lerp(orb3Y, mouseY - 150, 0.01);
+            orb3.style.left = `${orb3X}px`;
+            orb3.style.top = `${orb3Y}px`;
+
+            requestAnimationFrame(animate);
+        };
+
+        animate(); // 애니메이션 시작
+    </script>
+</body>
+</html>

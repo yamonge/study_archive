@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Malgun Gothic', sans-serif;
+    }
+    body{
+      background-color: #eee;
+      padding-top: 70px;
+      position: relative;
+      width: 1024px;
+    }
+    .navbar{
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 60px;
+      background-color: navy;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      animation-name: slideDown;
+      animation-duration: 0.4s;
+    }
+    .nav-links{
+      display: flex;
+      gap: 40px;
+      list-style: none;
+    }
+    .nav-links a{
+      display: block;
+      color: white;
+      text-decoration: none;
+    }
+    .nav-links a:hover{
+      color: white;
+      font-weight: bold;
+      transform: translateY(-2px);
+    }
+    .nav-links li{
+      animation-name: fadeIn;
+      animation-duration: 0.4s;
+    }
+    .nav-links li:nth-child(1){
+      animation-delay: 0.3s;
+    }
+    .nav-links li:nth-child(2){
+      animation-delay: 0.5s;
+    }
+    .nav-links li:nth-child(3){
+      animation-delay: 0.7s;
+    }
+    .nav-links li:nth-child(4){
+      animation-delay: 0.9s;
+    }
+    .logo{
+      color: white;
+      font-weight: bold;
+    }
+    @keyframes slideDown {
+      from{
+        transform: translateY(-100%);
+        opacity: 0;
+      }
+      to{
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+    @keyframes fadeIn{
+      from{
+        opacity: 0;
+        transform: translateY(-15px);
+      }
+      to{
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <span class="logo">LOGO</span>
+    <ul class="nav-links">
+      <li><a href="#">홈</a></li>
+      <li><a href="#">서비스</a></li>
+      <li><a href="#">포트폴리오</a></li>
+      <li><a href="#">문의</a></li>
+    </ul>
+  </nav>
+</body>
+</html>

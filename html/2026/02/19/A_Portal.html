@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>시맨틱 포털</title>
+</head>
+<body>
+    <header>
+        <h1 id="top">시맨틱 포털</h1>
+        <p>오늘은 한  페이지에 구조물  모두 합칩니다.</p>
+    </header>
+    <hr>
+    <nav>
+        메뉴
+        <ol>
+            <li><a href="#notice">공지</a></li>
+            <li><a href="#gallery">갤러리</a></li>
+            <li><a href="#contact">연락처</a></li>
+            <li><a href="#schedule">시간표</a></li>
+        </ol>
+    </nav>
+    <hr>
+    <main>
+        <section id="notice">
+            <h2>공지</h2>
+            <p>1) nav메뉴를 누르맨 해당 setion으로 이동합니다.</p>
+            <p>2) 각  section 아래에는 "맵 위로" 링크가 있습니다.</p>
+            <a href="#top">맨 위로</a>
+        </section>
+        <hr>
+        <section id="gallery">
+            <h2>갤러리</h2>
+            <p>이미지 2장을 넣고, 경로와 alt를 확인합니다.</p>
+            <img src="./image/pic1.jpg" alt="사진1" width="200" height="200">
+            <img src="./image/pic2.jpg" alt="사진2" width="200" height="200">
+            <br><br>
+            <a href="#top">맨 위로</a>
+        </section>
+        <hr>
+        <section id="contact">
+            <h2>연락처</h2>
+            <p>table로 정보를 정리합니다.</p>
+            <table border="1">
+                <tr><th scope="row">전화</th><td>010-0000-0000</td></tr>
+                <tr><th scope="row">이메일</th><td>example@domain.com</td></tr>
+                <tr><th scope="row">주소</th><td>서울시 어딘가</td></tr>
+            </table><br>
+            <a href="#top">맨 위로</a>
+        </section>
+        <hr>
+        <section id="schedule">
+            <h2>시간표</h2>
+            <p>열 제목(th)에는 scope="col" 을 붙여봅니다.</p>
+            <table border="1">
+                <tr><th scope="col">시간</th><th scope="col">내용</th><th scope="col">비고</th></tr>
+                <tr><td><b>09:00</b></td><td>HTML 구조</td><td>시맨틱</td></tr>
+                <tr><td><b>10:00</b></td><td>폼 맛보기</td><td>table/input</td></tr>
+                <tr><td><b>11:00</b></td><td>미디어</td><td>audio/video</td></tr>
+            </table>
+            <br>
+            <a href="#top">맨 위로</a>
+            <hr>
+            <footer>
+                <p>© 2026 포털 페이지</p>
+            </footer>
+        </section>
+    </main>
+</body>
+</html>

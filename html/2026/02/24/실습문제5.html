@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body{
+      padding: 10px;
+    }
+    .header > h1{
+      background: linear-gradient(to right, rgba(26, 25, 46, 1.0), rgba(26, 25, 46, 0.9));
+      font-size: 20px;
+      letter-spacing: 0.3px;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    .main{
+      display: flex;
+      flex-direction: column;
+      margin: 15px 0;
+      gap: 20px;
+    }
+    .contentbox1{
+      display: flex;
+      gap: 20px;
+    }
+    .contentbox1 > div:nth-child(1){
+      width: 30%;
+      background: purple;
+      color: white;
+      text-align: center;
+      padding: 40px;
+    }
+      .contentbox1 > div:nth-child(2){
+      width: 70%;
+      background: rgb(205, 60, 60);
+      color: white;
+      text-align: center;
+      padding: 40px;
+    }
+    .contentbox2{
+      display: flex;
+      gap: 20px;
+    }
+    .contentbox2 > div:nth-child(odd){
+      width: 70%;
+      background: rgb(82, 213, 53);
+      color: white;
+      text-align: center;
+      padding: 60px;
+    }
+    .contentbox2 > div:nth-child(even){
+      width: 30%;
+      background: rgb(137, 101, 101);
+      color: white;
+      text-align: center;
+      padding: 60px;
+    }
+    .footer{
+      background: linear-gradient(to right, rgba(26, 25, 46, 1.0), rgba(26, 25, 46, 0.9));
+      font-size: 20px;
+      letter-spacing: 0.3px;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    .footer > p::before{
+      content: "FOOTER - ";
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>HEADER - gradient background</h1>
+    </div>
+    <div class="main">
+      <div class="contentbox1">
+        <div>
+          <p>ASIDE</p>
+          <p>sidebar</p>
+          <p>width: 200px</p>
+        </div>
+        <div>
+          <p>MAIN CONTENT</p>
+          <p>padding: 32px</p>
+          <p>box-sizing: border-box</p>
+        </div>
+      </div>
+      <div class="contentbox2">
+        <div>
+          <p>CARD (even)</p>
+        </div>
+        <div>
+          <p>CARD (odd)</p>
+        </div>        
+      </div>
+    </div>
+    <div class="footer">
+      <p>dark background · ::before 장식</p>
+    </div>
+  </div>
+</body>
+</html>

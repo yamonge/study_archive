@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+  <title>Document</title>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    .container{
+      width: 1000px;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      grid-template-rows: repeat(5, 100px);
+      grid-template-areas: 
+        "logo title title title menu"
+        "section section content content content"
+        "section2 section2 content content content"
+        "section3 section3 content content content"
+        "policy coinfo coinfo coinfo etc"
+        ;
+      gap: 10px;
+      margin: 50px auto;
+    }
+    .container > div {
+      border-radius: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+    }
+    #logo{
+      grid-area: logo;
+      background-color: #ffa600;
+    }
+    #title{
+      grid-area: title;
+      background-color: #ff4400;
+    }
+    #menu{
+      grid-area: menu;
+      background-color: #ffa600;
+    }
+    .section{
+      grid-area: section;
+      background-color: #1f91ff;
+    }
+    .section2{
+      grid-area: section2;
+      background-color: #1f91ff;
+    }
+    .section3{
+      grid-area: section3;
+      background-color: #1f91ff;
+    }        
+    #content{
+      grid-area: content;
+      background-color: #74a474;
+    }
+    #policy{
+      grid-area: policy;
+      background-color: #808080;
+    }
+    #coinfo{
+      grid-area: coinfo;
+      background-color: #333333;
+    }
+    #etc{
+      grid-area: etc;
+      background-color: #808080;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div id="logo">
+      <span class="material-symbols-outlined">logo_dev</span>
+      로고
+    </div>
+    <div id="title">
+      <span class="material-symbols-outlined">title</span>
+      타이틀을 넣어 주세요.
+    </div>
+    <div id="menu">
+      <span class="material-symbols-outlined">menu</span>
+      햄버거 메뉴
+    </div>
+    <div class="section">
+      <span class="material-symbols-outlined">border_all</span>
+      섹션1
+    </div>
+    <div class="section2">
+      <span class="material-symbols-outlined">border_all</span>      
+      섹션2
+    </div>
+    <div class="section3">
+      <span class="material-symbols-outlined">border_all</span>      
+      섹션3
+    </div>
+    <div id="content">
+      <span class="material-symbols-outlined">content_paste</span>
+      콘텐츠 영역
+    </div>
+    <div id="policy">
+      <span class="material-symbols-outlined">policy</span>
+      약관및 정책
+    </div>
+    <div id="coinfo">
+      <span class="material-symbols-outlined">info</span>
+      회사 정보
+    </div>
+    <div id="etc">
+      <span class="material-symbols-outlined">more</span>
+      기타
+    </div>
+  </div>
+</body>
+</html>

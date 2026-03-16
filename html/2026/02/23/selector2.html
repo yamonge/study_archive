@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    /* 가상 요소 선택자 사용 : 실제 존재하지 않는 가상의 부분에 스타일 적용 */
+    h1::before{
+      content: "%%%%";
+      color: red;
+    }
+    h1::after{
+      content: "^^^^";
+      color: blue;
+    }
+    /* 가상 클래스 선택자 : 요소의 특정 상태를 기반으로 스타일 적용 */
+    a:link{
+      color: orange;
+    }
+    a:visited{
+      color: green;
+    }
+    /* 동적 가상 클랙스 선택자 : 사용자의 행동에 따라 동적으로 변하는 상태를 이용 */
+    /* hover : 요소에 마우스를 올리면 해당 태그가 선택 됨 */
+    /* active : 요소를 마우스로 누를때 해당 태그가 선택됨 */
+    /* 입력 요소 가상 클래스 선택자 : 입력 요쇼의 특징 상태를 이용해 선택자 지정 */
+    /* focus : 입력요소에 커서가 활성화되면 선택자로 지정 */
+    /* checked : 체크 박스가 표시되면 선택자로 지정 */
+    /* disable : 입력 요소가 비활성화 되면 선택자로 지정 */
+    /* enabled : 입력 요소가 활성화되면 선택자로 지정 */
+    div{
+      width: 100px;
+      height: 100px;
+      background-color: orangered;
+      border: 1px black solid;
+      border-radius: 10px;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    div:active{
+      background-color: blue;
+      width: 200px;
+    }
+    input:focus{
+      color: blue;
+      background-color: brown;
+    }
+    input:checked + label{ 
+      color: blue;
+    }
+    input:disabled{
+      background-color: brown;
+    }
+
+  </style>
+</head>
+<body>
+  <h1>여기는 헤더 영역 입니다.</h1>
+  <a href="https://www.naver.com">네이버</a><br>
+  <a href="https://www.kakao.com">카카오</a><br>
+  <a href="https://www.google.com">구글</a>
+  <div>Box</div>
+  <label>입력 <input type="text"></label><br>
+  <input type="checkbox" id="userid">
+  <label for="userid">아이디</label><br>
+  <label>비활성화 <input type="text" value="hello" disabled></label>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="utf-8">
+        <title>실습1 - 시맨틱 구조</title>
+    </head>
+        <header>
+            <h1 id="top">우리 반 홈페이지</h1>
+            <p title="header는 상단 영역입니다.">header: 페이지 상단(제목/로고)</p>
+        </header>
+        <nav>
+            <p title="nav는 메뉴 링크 모음입니다.">nav: 메뉴</p>
+            <ul>
+            <li><a href="#notice"title="공지로 이동">공지</a></li>
+            <li><a href="#gallery"title="갤러리로 이동">갤러리</a></li>
+            <li><a href="#contact"title="연락처로 이동">연락처</a></li>
+            </ul>
+        </nav>
+        <main>
+            <h2 title="main은 핵심 콘텐츠 영역">main: 핵심 콘텐츠</h2>
+            <section id="notice">
+                <h3>공지</h3>
+                <p>오늘의 과제: HTML 구조 이해하기</p>
+                <p><a href="#top"title="맨 위로">맨 위로</a></p>
+            </section>
+            <section id="gallery">
+                <h3>갤러리</h3>
+                <p>여기는 나중에 img를 넣을 자리입니다.</p>
+                <p><a href="#top">맨 위로</a></p>
+            </section>
+            <section id="contact">
+                <h3>연락처</h3>
+                <p>전화: 010-0000-0000<br>이메일: example@example.com</p>
+                <p><a href="#top">맨 위로</a></p>
+            </section>
+        </main>
+        <footer>
+            <p title="footer는 하단 정보">footer: © 2026 우리 반</p>
+        </footer>
+    </body>
+</html>

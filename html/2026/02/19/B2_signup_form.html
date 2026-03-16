@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B2 - 회원가입폼(확장)</title>
+</head>
+<body>
+    <h1 id="top">회원가입 폼(HTML만)</h1>
+    <p title="지금은 HTML 입력 UI 만들기 연습입니다.">
+    목표: 다양한 input 태그와 속성을 사용해 회원가입 화면을 만들어봅니다.<br>
+    전송(action/method)은 깊게 다루지 않고, “입력 구성”이 목표입니다.
+    </p>
+    <hr>
+
+    <h2>작성 팁</h2>
+    <ul>
+        <li>label의 for 값과 input의 id 값은 반드시 같아야 합니다.</li>
+        <li>required가 붙은 입력칸은 비어 있으면 제출이 안 됩니다.</li>
+        <li>radio는 같은 name을 써야 1개만 선택됩니다.</li>
+    </ul>
+    <hr>
+
+    <form action="#" method="get">
+        <h2>1) 기본 정보</h2>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th scope="col">항목</th>
+                    <th scope="col">입력</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row"><label for="name">이름</label></th>
+                    <td>
+                        <input id="name" type="text" name="username" placeholder="예: 홍길동" required>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="email">이메일</label></th>
+                    <td>
+                        <input id="email" type="email" name="useremail" placeholder="예: example@domain.com" required>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="pw1">비밀번호</label></th>
+                    <td>
+                        <input id="pw1" type="password" name="pw1" placeholder="8자 이상 입력(예시)" required>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="pw2">비밀번호 확인</label></th>
+                    <td>
+                        <input id="pw2" type="password" name="pw2" placeholder="위 비밀번호를 다시 입력" required>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="age">나이</label></th>
+                    <td>
+                        <input id="age" type="number" name="age" min="1" max="120" placeholder="예: 20">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p><a href="#top" title="맨 위로 이동">맨 위로</a></p>
+        <hr>
+
+        <h2>2) 선택 입력</h2>
+        <table border="1">
+            <tr>
+                <th scope="col">항목</th>
+                <th scope="col">선택</th>
+            </tr>
+            <tr>
+                <th scope="row">관심 분야(라디오)</th>
+                <td>
+                    <input id="field-fe" type="radio" name="field" value="frontend" checked>
+                    <label for="field-fe">프론트</label>
+                    <input id="field-be" type="radio" name="field" value="backend">
+                    <label for="field-be">백엔드</label>
+                    <input id="field-ai" type="radio" name="field" value="ai">
+                    <label for="field-ai">AI</label>
+                    <input id="field-da" type="radio" name="field" value="data">
+                    <label for="field-da">데이터</label>
+                    <input id="field-pr" type="radio" name="field" value="private">
+                    <label for="field-pr">보안</label>                    
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">수강 경험(체크박스)</th>
+                <td>
+                    <input id="exp-html" type="checkbox" name="exp" value="html">
+                    <label for="exp-html">HTML</label>
+                    <input id="exp-css" type="checkbox" name="exp" value="css">
+                    <label for="exp-css">CSS</label>
+                    <input id="exp-js" type="checkbox" name="exp" value="js">
+                    <label for="exp-js">JavaScript</label>
+                    <input id="exp-etc" type="checkbox" name="exp" value="etc">
+                    <label for="exp-etc">기타 프로그래밍</label>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row"><label for="contact">연락 방법(select)</label></th>
+                <td>
+                    <select id="contact" name="contact">
+                        <option value="email">이메일</option>
+                        <option value="phone">전화</option>
+                        <option value="chat">메신저</option>
+                        <option value="dm">DM</option>
+                        <option value="kakaotalk">카카오톡</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+        <p><a href="#top">맨 위로</a></p>
+        <hr>
+
+        <h2>3) 자기소개</h2>
+        <p title="textarea는 여러 줄 입력칸입니다.">아래에 간단히 자기소개를 작성하세요.</p>
+        <p>
+            <label for="intro">자기소개</label><br>
+            <textarea id="intro" name="intro" rows="5" cols="60" placeholder="예: 배우고 싶은 것, 기대하는 것 등을 적어보세요."></textarea>
+        </p>
+        <p><a href="#top">맨 위로</a></p>
+        <hr>
+
+        <h2>4) 동의</h2>
+        <p>
+            <input id="agree" type="checkbox" name="agree" value="yes" required>
+            <label for="agree">약관에 동의합니다(필수)</label>
+        </p>
+
+        <h2>5) 버튼</h2>
+        <p>
+            <input type="submit" value="제출하기">
+            <input type="reset" value="초기화">
+        </p>
+    </form>
+    <hr>
+
+    <footer>
+        <p>© 2026 회원가입 폼 실습</p>
+    </footer>
+</body>
+</html>

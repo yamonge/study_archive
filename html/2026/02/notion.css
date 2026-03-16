@@ -1,0 +1,531 @@
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+.menu ul{
+  list-style: none;
+  display: flex;
+  gap: 24px;
+  margin-left: 150px;
+}
+.menu ul > li{
+  color: white;
+  cursor: pointer;
+  font-size: 90%;
+}
+.nav{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 24px;
+  position: fixed;
+  width: 100%;
+  z-index: 100;
+  background-color: #02093a;
+}
+.menu ul > li:nth-child(1):after,
+.menu ul > li:nth-child(2):after,
+.menu ul > li:nth-child(3):after,
+.menu ul > li:nth-child(4):after {
+  content: "";
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background-color: currentColor; /* 글자색과 동일하게 */
+  /* 노션의 polygon 좌표를 clip-path로 재현 */
+  clip-path: polygon(15% 0%, 50% 35%, 85% 0%, 100% 15%, 50% 65%, 0% 15%);
+  margin-left: 6px;
+  vertical-align: middle;
+  color: white;
+}
+.main_01_container{
+  background-image: url(./images/Notion/notion_background.svg);
+  min-height: 1000px;
+  background-color: #02093a;
+  background-position: calc(50% + 15px);
+  background-repeat: no-repeat;
+  background-size: 180%;
+  position: relative;
+}
+.login_bar{
+  display: flex;
+  gap: 16px;
+}
+.login_bar button:nth-child(1){
+  border: none;
+  display: flex;
+  padding: 5px 10px;
+  background: none;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+.login_bar button:nth-child(2){
+  border: none;
+  display: flex;
+  padding: 8px 14px;
+  border-radius: 6px;
+  background-color: #455dd3;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+.main_01_container{
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 100px 0;
+  gap: 15px;
+}
+.main_01_container > h2{
+  font-size: 64px;
+}
+.main_01_container > p{
+  text-align: center;
+}
+.main01Btns{
+  display: flex;
+  gap: 15px;
+}
+.main01Btns > button{
+  width: 194px;
+  height: 38px;
+  border: none;
+  color: white;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 100%;
+  cursor: pointer;
+}
+.main01Btns > button:nth-child(1){
+  background-color: #455dd3;
+}
+.main01Btns > button:nth-child(2){
+  background-color: #213183;
+}
+.vidiobox > video{
+  width: 950px;
+  height: 600px;
+  border-radius: 10px;
+  object-fit: cover;
+  overflow: hidden;
+}
+.vidiobox{
+  padding-top: 30px;
+}
+.main_01_footer_text01{
+  font-size: 14px;
+  color: #ffffffbf;
+  padding-top: 15px;
+}
+.brand_box{
+  padding: 12px 0;
+  display: flex;
+  width: 100%;
+  flex: none;
+  margin-bottom: -80px;
+    /* ▼▼▼ 핵심 코드 ▼▼▼ */
+  position: sticky;
+  
+  /* 화면(100vh)에서 내 높이(60px)만큼 뺀 위치 = 즉, 바닥에 딱 붙음 */
+  top: calc(100vh - 60px); 
+  /* 배경이 투명하면 뒤에 글자가 겹쳐 보이니 배경색 필수 */
+  background-color: #02093a; 
+  
+  /* 맨 위에 올라오도록 우선순위 높임 */
+  z-index: 10;
+  justify-content: center; 
+}
+.brand_box > span > img{
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+.brand_box > span {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 125px;
+  height: 36px;
+  padding: 6px 15px;
+  
+}
+.brand_box > span::after{
+  content: "";
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: #78786f;
+  margin-left: 8px;
+  display: block;
+  flex-shrink: 0;
+}
+.main_02_container{
+  display: flex;
+  flex-direction: column;
+  padding: 64px 92px;
+  background-color: #f6f5f4;
+}
+.main_02_container > h2 {
+  font-size: 54px;
+  padding-bottom: 30px;
+}
+.main_02_video_box{
+  display: flex;
+  height: 640px;
+  background-color: white;
+  border-radius: 15px;
+}
+.main_02_video_box > div:nth-child(1){
+  width: 45%;
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  justify-content: space-between;
+}
+.main_02_video_box > div:nth-child(1) > div:nth-child(1){
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.main_02_QA_box{
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  height: 300px;
+}
+.main_02_QA_box > div {
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+  border-bottom: 1px rgba(105, 105, 105, 0.5) solid;
+  padding-top: 12px;
+  padding-bottom: 16px;
+}
+.main_02_QA_box > div:nth-of-type(4){
+  border: none;
+}
+.main_02_QA_box > div > div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.main_02_QA_box > div:nth-of-type(1) img {
+  width: 40px;
+  height: 40px;
+  background-color: #ff8a33;
+  border-radius: 50%;
+}
+.main_02_QA_box > div:nth-of-type(2) img {
+  width: 40px;
+  height: 40px;
+  background-color: #ad6ded;
+  border-radius: 50%;
+}
+.main_02_QA_box > div:nth-of-type(3) img {
+  width: 40px;
+  height: 40px;
+  background-color: #2a9d99;
+  border-radius: 50%;
+}
+.main_02_QA_box > div:nth-of-type(4) img {
+  width: 40px;
+  height: 40px;
+  background-color: #ff83dd;
+  border-radius: 50%;
+}
+.main_02_QA_box > div > div > span:nth-of-type(1){
+  font-weight: bold;
+}
+.main_02_QA_box > div > span:nth-of-type(1){
+  font-weight: bold;
+}
+.main_02_video_box > div:nth-child(1) > div:nth-child(1) > p:nth-child(2){
+  font-size: 22px;
+  font-weight: bold;
+}
+.main_02_video_box > div:nth-child(1) > div:nth-child(1) > p > span{
+  font-size: 12px;
+  background-color: #f2f9ff;
+  padding: 2px 7px;
+  color: #005bab;
+  border-radius: 20px;
+  font-weight: bold;
+}
+.main_02_QA_box > div p {
+  font-size: 14px;
+  color: #696969;
+}
+.main_02_video_box > div:nth-child(2){
+  width: 55%;
+  background-color: #ffdec3;
+  border-radius: 0 15px 15px 0;
+}
+.main_02_video_box > div:nth-child(2) > video{
+  width: 100%;
+  height: 100%;
+  object-position: center;
+  object-fit: fill;
+  border-radius: 0 15px 15px 0;
+  display: flex;
+}
+.arrow01 {
+  background-color: black;
+  color: white;
+  width: fit-content;
+  border-radius: 50%;
+  padding: 4px;
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24
+}
+.arrow05 {
+  background-color: black;
+  color: white;
+  border-radius: 50%;
+  padding: 6px;
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24
+}
+.main_02_card_board{
+  display: flex;
+  padding: 30px 0;
+  flex-direction: column;
+  gap: 15px;
+}
+.main_02_card_board > p{
+  color: #7e7f7d;
+  font-size: 14px;
+}
+.main_02_card_box{
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+}
+.main_02_cards{
+  height: 152px;
+  background-color: white;
+  border-radius: 10px;
+  padding: 24px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-weight: bold;
+}
+.main_02_cards > div > img,
+.main_02_cards > img{
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+.main_02_cards:nth-of-type(5){
+  background-color: #02093a;
+  color: white;
+}
+.main_02_cards > div:nth-of-type(1) > img:nth-of-type(3),
+.main_02_cards > div:nth-of-type(1) > img:nth-of-type(2){
+  margin-left: -8px;
+}
+.main_02_cards > p > span{
+  vertical-align: middle;
+  font-size: 18px;
+  font-weight: bold;
+}
+.arrow2{
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24
+}
+.main_03_container > h2:nth-of-type(1){
+  font-size: 54px;
+  padding-bottom: 30px;
+}
+.main_03_container > h2:nth-of-type(2){
+  font-size: 54px;
+  padding-bottom: 30px;
+  padding-top: 30px;
+}
+.main_03_container > div:nth-of-type(1){
+  min-height: 321px;
+  background-color: white;
+  border-radius: 15px;
+  display: flex;
+}
+.main_03_box01{
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 24px;
+}
+.main_03_box02{
+  flex: 1;
+  overflow: hidden;
+  background-color: #ffc95e;
+  border-radius: 0 15px 15px 0;
+  position: relative;
+}
+.main_03_box01 > p:nth-of-type(2){
+  font-size: 26px;
+  font-weight: bold;
+}
+.main_03_box02 > img:nth-of-type(1){
+  position: absolute;
+  width: 370px;
+  height: 370px;
+  left: 290px;
+  top: 30px;
+  padding-right: 10px;
+  background-color: white;
+  z-index: 3;
+  border-radius: 15px;
+  box-shadow: -1px 0px 1px rgba(0, 0, 0, 0.1);
+}
+.main_03_box02 > img:nth-of-type(2){
+  position: absolute;
+  width: 370px;
+  height: 370px;
+  right: 230px;
+  bottom: -150px;
+  z-index: 2;
+  border-radius: 15px;
+}
+.main_03_box02 > img:nth-of-type(3){
+  position: absolute;
+  width: 85px;
+  height: 115px;
+  z-index: 5;
+  bottom: 30px;
+  right: 38px;
+}
+.main_03_box03{
+  margin-top: 30px;
+  height: 553px;
+  display: flex;
+  gap: 30px;
+}
+.main_03_box03 > div{
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  background-color: white;
+  border-radius: 15px 15px 0 0;
+}
+.main_03_sub_title{
+  padding: 24px;
+  height: 170px;
+}
+.main_03_sub_title > div{
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.main_03_sub_title > div > p:nth-of-type(2){
+  font-size: 28px;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+.main_03_sub_title > div > p:nth-of-type(2) > span{
+  vertical-align: middle;
+}
+.main_03_img_box2,
+.main_03_img_box1{
+  flex: 1;
+  border-radius: 0 0 15px 15px;
+  overflow: hidden;
+  padding: 24px;
+  position: relative;
+}
+.main_03_img_box1 img:nth-of-type(1){
+  width: 100%;
+}
+.main_03_img_box1 img:nth-of-type(2){
+  position: absolute;
+  bottom: 20px;
+  left: 50px;
+  width: 80%;
+  z-index: 10;
+}
+.main_03_img_box2 img:nth-of-type(1){
+  width: 100%;
+}
+.main_03_img_box2 img:nth-of-type(2){
+  position: absolute;
+  bottom: 20px;
+  right: 50px;
+  width: 30%;
+  z-index: 10;
+}
+.main_03_box04{
+  display: flex;
+  gap: 30px;
+}
+/* ▼▼▼ [수정] 각도와 밝기 수정하여 바로 보이게 변경 ▼▼▼ */
+.spotlight {
+  position: absolute;
+  top: -100px;   /* 화면 위쪽에서 자연스럽게 내려오도록 */
+  left: 0;
+  width: 100%;
+  height: 1000px; /* 바닥까지 길게 */
+  animation: flicker 5s infinite linear;
+  /* 
+      [문제 해결 핵심]
+      이전 코드: 빛이 위로 솟구치고 있었음
+      수정 코드: 180deg(6시 방향)를 향해 정확히 내려오도록 설정 
+  */
+  background: conic-gradient(
+    from 0deg at 50% 0%, 
+      transparent 130deg,            /* 여기까지 투명 */
+      rgba(146, 156, 178, 0.4) 135deg, /* 175도에서 갑자기 빛 시작 (수정됨) */
+      rgba(146, 156, 178, 0.4) 225deg, /* 185도까지 빛 유지 (수정됨) */
+      transparent 230deg             /* 185도에서 갑자기 다시 투명 (수정됨) */
+  );
+  
+  /* 빛을 부드럽게 퍼트림 */
+  filter: blur(8px);
+  
+  /* 아래로 갈수록 자연스럽게 흐려지게 (선택사항) */
+  mask-image: linear-gradient(to bottom, black 20%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 20%, transparent 100%);
+  
+  /* 애니메이션 적용 */
+  animation: flicker 4s infinite ease-in-out;
+  pointer-events: none; /* 클릭 통과 */
+}
+
+/* 애니메이션 설정 */
+@keyframes flicker {
+  0%, 80% { 
+    opacity: 0.8; 
+    transform: scale(1); 
+  }
+  
+  /* 80%~100% 구간에서 빠르게 깜빡임 */
+  85% { 
+    opacity: 0.6; /* 갑자기 어두워짐 */
+    transform: scale(1.00);
+  }
+  90% { 
+    opacity: 0.8; /* 다시 확 밝아짐 */
+    transform: scale(1.00);
+  }
+  95% { 
+    opacity: 0.7; /* 짧게 지직거림 */
+  }
+  100% { 
+    opacity: 0.8; /* 원래 상태로 복귀 */
+    transform: scale(1);
+  }
+}
