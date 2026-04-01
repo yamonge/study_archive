@@ -5,7 +5,7 @@ const email = "jks2024@naver.com";
 const rst1 = email.split("@");
 console.log(rst1[0]);
 
-const phone = "010-1234-5678";
+const phone = "010-1264-5678";
 const masked = phone.slice(0, 4) + "****" + phone.slice(8);
 console.log(masked);
 
