@@ -9,7 +9,7 @@ const phone = "010-1234-5678";
 const masked = phone.slice(0, 4) + "****" + phone.slice(8);
 console.log(masked);
 
-const jumin = "990101-1234567";
+const jumin = "970101-1234567";
 const temp1 = jumin.substring(0, 6).concat("-*******");
 console.log(temp1);
 
