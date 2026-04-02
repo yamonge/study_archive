@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>실습2</title>
+  <style>
+    *{
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
+    .container{
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 30px;
+      padding-top: 50px;
+    }
+    .img_box{
+      width: 400px;
+      height: 400px;
+      background-image: url("./itzy.jpeg");
+      background-position: center;
+      background-size: cover;
+      display: flex;
+      align-items: end;
+    }
+    .info_btn{
+      padding: 5px;
+      border: none;
+      margin: 10px;
+      background-color: rgba(204, 177, 177, 0.7);
+      cursor: pointer;
+    }
+    .text_box{
+      width: 400px;
+      display: none;
+      flex-direction: column;
+      gap: 30px;
+      margin-bottom: 50px;
+    }
+    .title{
+      font-weight: bold;
+    }
+    .close_btn{
+      width: fit-content;
+      padding: 3px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="img_box">
+      <button class="info_btn">상세 설명 보기</button>
+    </div>
+    <div class="text_box">
+      <p class="title">그룹 잇지</p>
+      <p class="content">팀명 'ITZY'는 '너희가 원하는 거 전부 있지? 있지!' 라는 뜻을 가지고 있으며, 정식 한글 표기법은 있지이다. 혹 영어명인 'ITZY'로만 들어본 사람들이 한글로는 어떻게 적는지 몰라 '잇지'라고 부르는 경우도 꽤 많이 있는데, '있지'라고 불러야 한다며 정정해주는 것이 팬덤 있지에게는 일상이 되었다.</p>
+      <button class="close_btn">상세 설명 닫기</button>
+    </div>
+  </div>
+  <script>
+    const btn1 = document.querySelector(".info_btn");
+    const btn2 = document.querySelector(".close_btn");
+    const box1 = document.querySelector(".text_box");
+    btn1.addEventListener("click", (e) => {
+      box1.style = "display: flex";
+      e.target.style = "display: none";
+    })
+    btn2.addEventListener("click", (e) => {
+      box1.style = "display: none";
+      btn1.style = "display: inline-block";
+    })
+  </script>
+</body>
+</html>

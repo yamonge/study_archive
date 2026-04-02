@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <button id="button1">클릭</button>
+  <div class="box1">
+
+  </div>
+  <script>
+    const button = document.getElementById("button1");
+    const box1 = document.querySelector(".box1");
+    button.addEventListener("click", () => {
+      const newEl = document.createElement("p");
+      newEl.textContent = "정석대로 추가된 요소 입니다.";
+      box1.appendChild(newEl);
+    })
+  </script>
+</body>
+</html>

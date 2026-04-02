@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h1 id="title">문서 제목 입니다.</h1>
+  <p class="text">첫번째 단락</p>
+  <p class="text">두번째 단락</p>
+  <div class="box1"></div>
+  <div class="box1"></div>
+  <div class="box1"></div>
+  <p>세번째 단락락</p>
+  <script>
+    const doc = document.firstElementChild;
+    console.log(doc)
+
+    const el = document.getElementById("title")
+    console.log(el)
+
+    const classEls = document.getElementsByClassName("text");
+    console.log(classEls)
+
+    const tagEls = document.getElementsByTagName("p")
+    console.log(tagEls)
+
+    const boxEl = document.querySelector(".box1")
+    console.log(boxEl)
+  </script>
+</body>
+</html>
