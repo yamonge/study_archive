@@ -1,0 +1,158 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+:root {
+    --bg-color: #09090b;
+    /* 회전 반경을 줄여서 좀 더 둥글고 타이트한 부채꼴 생성 */
+    --menu-radius: 320px; 
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.container{
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--bg-color);
+  background-image: radial-gradient(circle at 50% 100%, #3b076444 0%, var(--bg-color) 60%);
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.menu-container {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 250px; 
+    display: flex;
+    justify-content: center;
+    touch-action: none;
+    z-index: 100;
+}
+
+/* 회전 중심축: 반경이 줄어든 만큼 위치 조정 */
+.wheel {
+    position: absolute;
+    bottom: -200px; 
+    left: 50%;
+    width: 0;
+    height: 0;
+    transform: rotate(var(--global-angle, 0deg));
+    transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* 개별 카드 (크기 대폭 확대) */
+.card {
+    position: absolute;
+    width: 120px;  /* 100px -> 120px */
+    height: 180px; /* 150px -> 180px */
+    left: -60px;   /* 너비의 절반 */
+    top: -90px;    /* 높이의 절반 */
+    
+    transform: rotate(var(--angle)) 
+                translateY(calc(-1 * var(--menu-radius))) 
+                translateY(var(--offset-y, 0));
+                
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 26px;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+    
+    /* z-index는 JS에서 실시간으로 부여되므로 트랜지션에서 제외 */
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+                border-color 0.4s ease, 
+                box-shadow 0.4s ease;
+    
+    box-shadow: -10px 0 25px rgba(0, 0, 0, 0.5),
+                0 10px 30px rgba(0, 0, 0, 0.5);
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* 호버 시 살짝 위로 올라오는 효과 */
+.card:hover:not(.focused) {
+    --offset-y: -15px;
+    border-color: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* 화려한 그라디언트를 위한 가상 요소 */
+.card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(135deg, var(--c1), var(--c2));
+    opacity: 0; 
+    transition: opacity 0.4s ease; 
+    z-index: 0;
+}
+
+.card svg, .card .label {
+    position: relative;
+    z-index: 2;
+}
+
+/* ★ 포커스(선택) 상태: 카드의 50%(90px) 팝업 */
+.card.focused {
+    --offset-y: -90px; 
+    border-color: rgba(255,255,255,0.5);
+    color: #ffffff;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8), 
+                0 15px 35px var(--c1-glow);
+}
+
+.card.focused::before {
+    opacity: 1;
+}
+
+.card svg {
+    width: 42px; /* 아이콘 크기 키움 */
+    height: 42px;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.card .label {
+    position: absolute;
+    bottom: 25px;
+    font-size: 15px;
+    font-weight: 600;
+    opacity: 0;
+    transform: translateY(15px);
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    pointer-events: none;
+}
+
+.card.focused svg {
+    transform: translateY(-16px) scale(1.15);
+}
+
+.card.focused .label {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.glow-indicator {
+    position: absolute;
+    bottom: -30px;
+    width: 250px;
+    height: 70px;
+    background: rgba(255, 255, 255, 0.1);
+    filter: blur(45px);
+    border-radius: 50%;
+    pointer-events: none;
+    transition: background 0.5s ease;
+    z-index: 1;
+}

@@ -1,0 +1,5 @@
+1. 192.168.0.169
+2. Windows
+3. IntelliJ
+4. VSCode
+5. MySQL, Oracle
