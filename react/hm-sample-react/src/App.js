@@ -1,9 +1,9 @@
 import "./App.css";
-import Table from "./2026/04/08/Table";
+import MyMap from "./2026/04/09/MyMap";
 function App() {
   return (
     <>
-      <Table />
+      <MyMap lat={37.5665} lng={126.978} />
     </>
   );
 }
