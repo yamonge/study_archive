@@ -2,9 +2,14 @@ import "./App.css";
 import MyMap from "./2026/04/09/MyMap";
 function App() {
   return (
-    <>
-      <MyMap lat={37.5665} lng={126.978} />
-    </>
+    <div
+      style={{
+        width: "100%",
+        padding: "100px 100px",
+      }}
+    >
+      <MyMap lat={37.52112} lng={127.1283636} />
+    </div>
   );
 }
 

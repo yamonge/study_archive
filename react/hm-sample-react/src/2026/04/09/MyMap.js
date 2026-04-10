@@ -8,10 +8,11 @@ import {
 function MyMap({ lat, lng }) {
   return (
     <NavermapsProvider
-      ncpClientId="Bd4EeHwOE05Xw77yYDQTw4VUd8HrO1XPY6W1jJ8g" // 여기에 발급받은 API 키 입력
+      ncpKeyId="28n51run07" // 여기에 발급받은 API 키 입력
     >
       <MapDiv
         style={{
+          border: "1px solid black",
           width: "100%",
           height: "300px", // 블로그처럼 적당한 높이
         }}
