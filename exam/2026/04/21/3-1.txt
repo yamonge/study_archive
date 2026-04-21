@@ -1,0 +1,11 @@
+Chrome 개발자 도구 (F12)		Network 탭에서 HTTP 요청/응답 확인, Status Code, Header, Payload 점검
+Postman					API 엔드포인트 직접 호출 및 응답 검증
+Swagger UI					인터페이스 명세 문서화 및 테스트
+로그 모니터링				application.log, error.log를 통한 서버 측 오류 확인
+JUnit + Mockito				단위 테스트를 통한 서비스 로직 검증
+
+Chrome 개발자 도구 활용 순서:
+F12 → Network 탭 클릭
+인터페이스 호출 (버튼 클릭 또는 API 요청)
+요청 항목 클릭 → Headers, Payload, Response 탭 순서로 확인
+Status Code가 200 OK인지, 응답 JSON 구조가 명세와 일치하는지 확인

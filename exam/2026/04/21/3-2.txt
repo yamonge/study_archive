@@ -1,0 +1,48 @@
+public void fetchAndSaveMusicals(){
+        int cpage = 1;
+        int rows = 100;
+        String stdate = "20260101";
+        String eddate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+
+        while(true){
+            try{
+                String url = baseUrl + "/pblprfr?service=" + apiKey
+                        + "&stdate=" + stdate
+                        + "&eddate=" + eddate
+                        + "&shcate=GGGA&rows=" + rows
+                        + "&cpage=" +  cpage;
+
+                KopisPerformanceItemList itemList = restTemplate.getForObject(url, KopisPerformanceItemList.class);
+
+                if(itemList == null || itemList.getItems() == null || itemList.getItems().isEmpty()){
+                    log.warn("KOPIS 목록 응답이 비어 있습니다.");
+                    break;
+                }
+
+                for(KopisPerformanceItem item : itemList.getItems()){
+                    try{
+                        Thread.sleep(500);
+
+                        if(musicalRepository.existsByKopisId(item.getMt20id())){
+                            log.info("이미 존재하는 공연 skip: {}", item.getMt20id());
+                            continue;
+                        }
+
+                        String detailUrl = baseUrl + "/pblprfr/" + item.getMt20id() + "?service=" + apiKey;
+                        KopisPerformanceDetailList detailList = restTemplate.getForObject(detailUrl, KopisPerformanceDetailList.class);
+                        KopisPerformanceDetail detail = detailList.getKopisDetailList().get(0);
+
+                        String facilityUrl = baseUrl + "/prfplc/" + detail.getMt10id() + "?service=" + apiKey;
+                        KopisFacilityDetailList facilityList = restTemplate.getForObject(facilityUrl, KopisFacilityDetailList.class);
+                        KopisFacilityDetail facility = facilityList.getKopisSubDetailList().get(0);
+
+
+Spring Actuator를 이용한 KOPIS 연계 체크:
+GET /actuator/health 엔드포인트를 통해 외부 API 연계 상태를 실시간으로 확인합니다.
+연계 상태 확인 항목:
+HTTP 응답 코드 및 RestTemplate 통신 성공 여부
+공연 목록 및 상세 정보 데이터 수신 여부
+데이터베이스 내 중복 확인 및 데이터 적재 상태
+API 호출 부하 조절을 위한 처리 지연 관리 (Latency)
+
+

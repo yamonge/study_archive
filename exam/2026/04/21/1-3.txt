@@ -1,0 +1,19 @@
+데이터 형식		JSON		{"key": "value"}
+문자 인코딩		UTF-8		charset=UTF-8
+날짜/시간		ISO 8601		2026-04-21T09:00:00Z
+HTTP 메서드		RESTful 표준		GET, POST, PUT, DELETE
+응답 코드		HTTP 상태 코드		200, 400, 401, 404, 500
+API 버전		URI 버전 관리		/api/v3/user
+
+{
+  "status": "SUCCESS",
+  "code": 200,
+  "message": "로그인이 완료되었습니다.",
+  "data": {
+    "userId": 1,
+    "name": "홍길동",
+    "email": "user@naver.com"
+    "isAdmin": true
+    "birthDate": "20260101"
+  }
+}

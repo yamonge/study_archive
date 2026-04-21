@@ -12,7 +12,7 @@ function MyMap({ lat, lng }) {
     >
       <MapDiv
         style={{
-          border: "1px solid black",
+          border: "1px solid black",  
           width: "100%",
           height: "300px", // 블로그처럼 적당한 높이
         }}

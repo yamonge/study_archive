@@ -1,0 +1,36 @@
+1. 기능 목록 도출: 시스템이 제공해야 할 기능(로그인, 조회, 등록, 수정, 삭제 등)을 목록화합니다.
+2. 모듈 간 데이터 흐름 파악: 어떤 모듈이 어떤 데이터를 생산·소비하는지 파악하여 의존 관계를 정리합니다.
+3. 인터페이스 연계 유형 분류:
+    - 직접 연계: DB Link, API 호출 등 실시간 연계
+    - 간접 연계: MQ(Message Queue), Batch, ESB 등 비동기 연계
+4. Spring 기반 연계 구현 예시 (Controller → Service → Repository):
+
+public class UserController {
+
+    private final UserService userService;
+
+    @Operation(
+        summary = "회원 정보 조회",
+        description = "userId로 특정 회원 정보 조회"
+    )
+    @GetMapping("/{userId}")
+    public ResponseEntity<ApiResponse<UserResDto>> getUser(
+            @Parameter(description = "회원 ID", example = "1")
+            @PathVariable Long userId) {
+        UserResDto dto = userService.getUser(userId);
+        return ResponseEntity.ok(ApiResponse.ok("회원 정보 조회 성공", dto));
+    }
+
+
+
+public class UserService {
+
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+
+    // 회원 단건 조회
+    @Transactional(readOnly = true)
+    public UserResDto getUser(Long userId) {
+        User user = findUserById(userId);
+        return UserResDto.from(user);
+    }

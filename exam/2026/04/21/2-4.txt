@@ -1,0 +1,29 @@
+@Component
+public class JwtAuthenticationFilter extends OncePerRequestFilter {
+    @Override
+    protected void doFilterInternal(HttpServletRequest request,
+            HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
+        String token = request.getHeader("Authorization");
+        if (token != null && token.startsWith("Bearer ")) {
+            String jwt = token.substring(7);
+            // 토큰 검증 로직
+            Claims claims = jwtUtil.parseClaims(jwt);
+            // SecurityContext에 인증 정보 설정
+        }
+        filterChain.doFilter(request, response);
+    }
+}
+
+
+HTTPS 통신 적용: 중요 데이터 전송 시 SSL/TLS 기반 암호화 통신을 사용합니다.
+입력값 검증: SQL Injection, XSS 방어를 위한 입력값 필터링을 적용합니다.
+민감 데이터 마스킹: 응답 시 주민번호, 비밀번호 등은 마스킹 처리합니다.
+API 접근 제어: Spring Security의 @PreAuthorize로 권한별 접근을 제한합니다.
+
+@PreAuthorize("hasRole('ADMIN')")
+@DeleteMapping("/users/{id}")
+public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+    userService.delete(id);
+    return ResponseEntity.noContent().build();
+}

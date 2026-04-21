@@ -1,5 +1,5 @@
 import "./App.css";
-import Exam1 from "./2026/04/21/Exam1";
+import Exam2 from "./2026/04/21/Exam2";
 import styled, { css } from "styled-components";
 
 const Container = styled.div`
@@ -13,7 +13,7 @@ const Container = styled.div`
 function App() {
   return (
     <Container>
-      <Exam1 />
+      <Exam2 />
     </Container>
   );
 }

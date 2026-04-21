@@ -1,0 +1,22 @@
+세부 설계서 항목 확인: 인터페이스 ID, 송수신 시스템, 데이터 항목, 처리 방식, 호출 주기 등을 확인합니다.
+공통 구조 적용: 모든 인터페이스에 동일한 요청/응답 구조를 적용하여 일관성을 유지합니다.
+
+@RestController
+@RequestMapping("/api/v3/users")
+@RequiredArgsConstructor
+@Tag(name = "User", description = "회원 정보 조회 / 수정 API")
+public class UserController {
+
+    private final UserService userService;
+
+    @Operation(
+        summary = "회원 정보 조회",
+        description = "userId로 특정 회원 정보 조회"
+    )
+    @GetMapping("/{userId}")
+    public ResponseEntity<ApiResponse<UserResDto>> getUser(
+            @Parameter(description = "회원 ID", example = "1")
+            @PathVariable Long userId) {
+        UserResDto dto = userService.getUser(userId);
+        return ResponseEntity.ok(ApiResponse.ok("회원 정보 조회 성공", dto));
+    }
