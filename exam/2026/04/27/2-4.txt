@@ -1,0 +1,5 @@
+DBMS명: ORACLE 11g
+ip주소: localhost
+port번호: 1521
+계정명: scott
+비밀번호: tiger

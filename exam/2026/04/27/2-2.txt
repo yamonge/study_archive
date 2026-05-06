@@ -1,0 +1,2 @@
+Oracle 기준: $ORACLE_BASE/diag/rdbms/<DB명>/<인스턴스명>/trace/
+또는 udump 디렉토리 (구버전): $ORACLE_BASE/admin/<DB명>/udump/

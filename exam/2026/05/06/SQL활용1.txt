@@ -1,0 +1,20 @@
+1.
+
+SELECT * FROM dict
+
+2.
+
+SELECT e.empno AS no, e.ename AS name, e.sal AS salary, d.dname AS d_name, d.loc AS location
+FROM emp e JOIN dept d ON e.deptno = d.deptno
+WHERE e.sal >= 2000
+ORDER BY sal DESC;
+
+3.
+
+CREATE TABLE board_list(
+	board_list_id NUMBER(5) PRIMARY KEY,
+	title VARCHAR2(100) NOT NULL,
+	content VARCHAR2(2000),
+	writer VARCHAR2(20) NOT NULL,
+	create_time NUMBER(13) NOT NULL
+);

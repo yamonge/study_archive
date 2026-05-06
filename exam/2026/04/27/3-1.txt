@@ -1,0 +1,1 @@
+CREATE INDEX idx_emp_ename ON emp(ename);

@@ -1,0 +1,5 @@
+CREATE TABLE tb_board(
+	tb_board_id NUMBER(5) PRIMARY KEY,
+	title VARCHAR2(30) NOT NULL,
+	detail VARCHAR2(1000)
+);
