@@ -19,7 +19,7 @@ public class MemberDao {
 
      // 회원가입
      public boolean save(Member member){
-          String sql = "INSERT INTO member (username, password, nickname) VALUES (?,?,?)";
+          String sql = "INSERT INTO member (member_id, username, password, nickname) VALUES (members_seq.NEXTVAL, ?,?,?)";
           int rst = jdbcTemplate.update(sql, member.getUsername(), member.getPassword(), member.getNickname());
           return rst > 0;
      }
@@ -48,7 +48,7 @@ public class MemberDao {
      // 멤버 조회
      public Member userInfo(String username){
           String sql = "SELECT * FROM member where username = ?";
-          Member member = jdbcTemplate.queryForObject(sql, Member.class, username);
+          Member member = jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(Member.class), username);
           return member;
      }
 }

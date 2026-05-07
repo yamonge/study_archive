@@ -33,14 +33,14 @@ public class AuthController {
     }
 
     //회원 전체 조회
-    @GetMapping("/showall")
+    @PostMapping("/showall")
     public ResponseEntity<?> showall(@Valid @RequestBody UserReq req){
         List<Member> members = memberService.showall(req);
         return ResponseEntity.ok(members);
     }
 
     // 회원 개별 조회
-    @GetMapping("/userInfo")
+    @PostMapping("/userInfo")
     public ResponseEntity<?> userInfo(@Valid @RequestBody UserReq req){
         Member member = memberService.userInfo(req);
         return ResponseEntity.ok(member);

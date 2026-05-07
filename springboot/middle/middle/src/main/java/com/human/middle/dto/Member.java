@@ -10,12 +10,14 @@ import lombok.*;
 //@EqualsAndHashCode // equals()와 hashCode() 오버라이딩
 //@RequiredArgsConstructor  // final 필드 생성자
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Member {
-    private Long id;
+    private Long memberId;
     private String username;
     private String password;
     private String nickname;
-    private String role;
+    private String memberRole;
 
     @Builder
     public Member(String username, String password, String nickname) {

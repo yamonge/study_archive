@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 @Data
 public class Comment {
-    private Long id;
+    private Long commentId;
     private String content;
     private Long boardId;
     private Long memberId;

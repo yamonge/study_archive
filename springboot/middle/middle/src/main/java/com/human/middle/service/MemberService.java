@@ -40,7 +40,8 @@ public class MemberService {
 
     public List<Member> showall(UserReq req){
         Member member = memberDao.userInfo(req.getUsername());
-        if(!member.getRole().equals("Y")){
+        System.out.println("DB에서 가져온 권한 값:[" + member.getMemberRole() + "]");
+        if(!member.getMemberRole().equals("Y")){
             throw new IllegalArgumentException("관리자가 아닙니다.");
         }
 
