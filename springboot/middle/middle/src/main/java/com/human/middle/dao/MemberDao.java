@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor    // final 필드의 생성자를 자동으로 만들어줌
@@ -45,10 +46,17 @@ public class MemberDao {
           return members;
      }
 
-     // 멤버 조회
-     public Member userInfo(String username){
+     // 멤버 조회 ID로
+     public Optional<Member> userInfo(Long memberId){
+          String sql = "SELECT * FROM member where member_id = ?";
+          List<Member> members = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Member.class), memberId);
+          return members.stream().findFirst();
+     }
+
+     // 멤버 조회 이름으로
+     public Optional<Member> userInfo(String username){
           String sql = "SELECT * FROM member where username = ?";
-          Member member = jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(Member.class), username);
-          return member;
+          List<Member> members = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Member.class), username);
+          return members.stream().findFirst();
      }
 }

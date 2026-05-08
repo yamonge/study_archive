@@ -1,49 +1,62 @@
 package com.human.middle.controller;
 
-import com.human.middle.dto.Member;
 import com.human.middle.dto.request.LoginReq;
 import com.human.middle.dto.request.MemberRegReq;
-import com.human.middle.dto.request.UserReq;
+import com.human.middle.dto.response.MemberResponse;
 import com.human.middle.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthController {
     private final MemberService memberService;
 
     // 회원가입
+    @GetMapping("/register")
+    public String resisterForm(Model model){
+        // request DTO를 모델에 담아 폼 바이딩
+        model.addAttribute("member", new MemberRegReq());
+        return "/auth/register";
+    }
+
     @PostMapping("/register")
-    public ResponseEntity<?> register(@Valid @RequestBody MemberRegReq req){
-        memberService.register(req);
-        return ResponseEntity.ok("회원가입 성공");
+    public String register(@Valid @ModelAttribute("member") MemberRegReq memberRegReq, BindingResult bindingResult
+                                , RedirectAttributes ra){
+        // @Vaild 검증 실패 시 폼 페이지로 돌아감
+        if(bindingResult.hasErrors()){
+            return "auth/register";
+        }
+        try{
+            memberService.register(memberRegReq);
+            return "redirect:/auth/login";
+        }catch(IllegalArgumentException e){
+            ra.addFlashAttribute("error", e.getMessage());
+            return "redirect:/auth/register";
+        }
     }
 
     // 로그인
     @GetMapping("/login")
-    public ResponseEntity<?> login(@Valid @RequestBody LoginReq req){
-        Member member = memberService.login(req);
-        return ResponseEntity.ok(member);
+    public String loginView(Model model){
+        model.addAttribute("Login", new LoginReq());
+        return "/auth/login";
     }
 
     //회원 전체 조회
-    @PostMapping("/showall")
-    public ResponseEntity<?> showall(@Valid @RequestBody UserReq req){
-        List<Member> members = memberService.showall(req);
-        return ResponseEntity.ok(members);
+    @GetMapping("/showAll")
+    public String showAll(Model model){
+        List<MemberResponse> members = memberService.showall();
+        model.addAttribute("members", new MemberResponse());
+        return "/admin/showAll";
     }
-
     // 회원 개별 조회
-    @PostMapping("/userInfo")
-    public ResponseEntity<?> userInfo(@Valid @RequestBody UserReq req){
-        Member member = memberService.userInfo(req);
-        return ResponseEntity.ok(member);
-    }
-
 }
