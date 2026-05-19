@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>BoardView</title>
+</head>
+<body>
+    <h1 th:text="${board.title}"></h1>
+
+    <p th:text="${board.memberId}"></p>
+
+    <p th:text="${board.viewCount}"></p>
+
+    <p th:text="${#temporals.format(board.createAt, 'yyyy-MM-dd')}"></p>
+
+    <p th:text="${board.content}"></p>
+
+    <a th:href="@{/board/list}">목록으로 이동</a>
+</body>
+</html>

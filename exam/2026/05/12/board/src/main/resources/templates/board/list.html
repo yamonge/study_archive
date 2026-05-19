@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>BoardList</title>
+</head>
+<body>
+  <table border="1">
+    <tr><th>BOARD_ID</th><th>BOARD_TITLE</th><th>BOARD_CONTENT</th><th>MEMBER_ID</th><th>VIEW_COUNT</th><th>CREATE_AT</th></tr>
+    <tr th:each="board : ${boards}">
+      <td th:text="${board.boardId}"></td>
+      <td><a th:href="@{/board/view/{id}(id=${board.boardId})}" th:text="${board.title}"></a></td>
+      <td th:text="${board.content}"></td>
+      <td th:text="${board.memberId}"></td>
+      <td th:text="${board.viewCount}"></td>
+      <td th:text="${#temporals.format(board.createAt, 'yyyy-MM-dd')}"></td>
+    </tr>
+  </table>
+</body>
+</html>

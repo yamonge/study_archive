@@ -1,0 +1,214 @@
+1.1 오픈 API 활용 가이드 확보
+API 서비스명: 정보나루 인기대출도서 조회
+기본 URL: http://data4library.kr/api/loanItemSrch
+메서드: GET
+인증: 발급받은 인증키(authKey)를 URL 파라미터로 전달
+
+1.2 오픈 API 활용 가이드 이해
+요청(Request): authKey(필수), startDt(조회 시작일), endDt(조회 종료일), format(응답 형식: json/xml)
+응답(Response): 성공 시 200 OK와 함께 도서 목록(docs), 검색 결과 수(numFound) 등을 반환
+
+1.3 API 통신 방법 분석
+프로토콜: HTTP
+데이터 형식: JSON (파라미터 format=json 사용 시)
+인증 방식: Query Parameter 방식 (URL 뒤에 ?authKey=... 붙임)
+
+1.4 필수 항목 작성
+Base URL: http://data4library.kr/api/loanItemSrch
+필수 파라미터: authKey
+의존성: spring-boot-starter-web (RestTemplate 사용 목적)
+
+1.5 요청 전달 및 결과 도출
+@Service
+public class LibraryService {
+
+    public BookResponse getPopularBooks() {
+        RestTemplate restTemplate = new RestTemplate();
+        String url = "http://data4library.kr/api/loanItemSrch";
+        
+        // 1. URL과 파라미터 설정
+        URI uri = UriComponentsBuilder.fromHttpUrl(url)
+                .queryParam("authKey", "API_KEY") // 발급받은 키 넣기
+                .queryParam("startDt", "2024-01-01")
+                .queryParam("endDt", "2024-01-31")
+                .queryParam("format", "json")
+                .build()
+                .toUri();
+
+        // 2. API 호출 및 결과 받기
+        BookResponse response = restTemplate.getForObject(uri, BookResponse.class);
+        
+        return response;
+    }
+}
+
+2.1 요청/응답 프로세스 구성 및 응답 확인
+public void checkResponse() {
+    RestTemplate restTemplate = new RestTemplate();
+    String url = "http://data4library.kr/api/loanItemSrch?authKey=API_KEY&format=json";
+
+    // 1. API 호출 및 응답 받기
+    BookResponse result = restTemplate.getForObject(url, BookResponse.class);
+
+    // 2. 필요한 필드(책 제목) 추출 및 출력
+    if (result != null && result.response != null) {
+        String title = result.response.docs.get(0).doc.bookname;
+        System.out.println("추출된 책 제목: " + title);
+    }
+}
+
+
+시험 항목별로 하나씩 나누어 설명해 줄게. 각 항목이 요구하는 핵심 내용에만 집중해서 작성했다.
+2.1 요청/응답 프로세스 구성 및 응답 확인
+이것이 하는 일
+API에 데이터를 요청하고, 받은 JSON에서 필요한 정보(책 제목)만 골라내서 화면에 출력한다.
+코드
+code
+Java
+public void checkResponse() {
+    RestTemplate restTemplate = new RestTemplate();
+    String url = "http://data4library.kr/api/loanItemSrch?authKey=API_KEY&format=json";
+
+    // 1. API 호출 및 응답 받기
+    BookResponse result = restTemplate.getForObject(url, BookResponse.class);
+
+    // 2. 필요한 필드(책 제목) 추출 및 출력
+    if (result != null && result.response != null) {
+        String title = result.response.docs.get(0).doc.bookname;
+        System.out.println("추출된 책 제목: " + title);
+    }
+}
+
+2.2 네트워크 기술 이해 및 활용
+public void networkInfo() {
+    // [네트워크 정보]
+    // 프로토콜: HTTP REST
+    // 호스트: data4library.kr (포트: 80)
+    // 연결 방식: RestTemplate을 이용한 GET 방식
+    
+    RestTemplate restTemplate = new RestTemplate();
+    String url = "http://data4library.kr/api/loanItemSrch?authKey=API_KEY&format=json";
+
+    ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+
+    // 연결 상태 확인 로그
+    if (response.getStatusCode().is2xxSuccessful()) {
+        System.out.println("네트워크 연결 성공: " + response.getStatusCode());
+    }
+}
+
+2.3 오류 이해 및 제거 조치
+public void handleErrors() {
+    RestTemplate restTemplate = new RestTemplate();
+    String url = "http://data4library.kr/api/loanItemSrch?authKey=잘못된키&format=json";
+
+    try {
+        BookResponse result = restTemplate.getForObject(url, BookResponse.class);
+    } catch (Exception e) {
+        // [오류 조치] try-catch를 통해 시스템 중단을 방지하고 원인 출력
+        System.out.println("오류 발생 원인: " + e.getMessage());
+        System.out.println("조치사항: API 키 확인 및 네트워크 상태 재점검 필요");
+    }
+}
+
+2.4 소스 코드 수정 및 컴파일 오류 제거
+@Service
+public class LibraryService {
+    // 경고(Warning) 제거를 위한 어노테이션 사용 가능
+    @SuppressWarnings("unused") 
+    public void cleanCode() {
+        // 오타나 문법 오류가 없는 완성된 형태의 코드
+        RestTemplate restTemplate = new RestTemplate();
+        String url = "http://data4library.kr/api/loanItemSrch?authKey=API_KEY&format=json";
+        
+        BookResponse response = restTemplate.getForObject(url, BookResponse.class);
+        System.out.println("컴파일 및 실행 성공");
+    }
+}
+
+
+2.5 다른 요청으로 새로운 응답 받기
+public LibResponse getLibraries() {
+    RestTemplate restTemplate = new RestTemplate();
+    
+    // [다른 엔드포인트] 도서관 목록 조회 API URL
+    String url = "http://data4library.kr/api/libSrch";
+    
+    URI uri = UriComponentsBuilder.fromHttpUrl(url)
+            .queryParam("authKey", "API_KEY")
+            .queryParam("pageSize", "5")
+            .queryParam("format", "json")
+            .build()
+            .toUri();
+
+    // 새로운 DTO인 LibResponse.class로 데이터를 받음
+    LibResponse response = restTemplate.getForObject(uri, LibResponse.class);
+    
+    return response;
+}
+
+
+3.1 안정적인 성능(동작) 검증
+public void testStability() {
+    for (int i = 0; i < 2; i++) { // 2회 반복 테스트
+        try {
+            restTemplate.getForObject(url, BookResponse.class);
+            System.out.println((i + 1) + "차 호출 성공");
+        } catch (Exception e) {
+            System.out.println("오류 발생해도 강제종료 안됨: " + e.getMessage());
+        }
+    }
+}
+
+3.2 프로그램 기술(명령어) 이해 및 동작 확인
+public void checkSteps() {
+    System.out.println("1. 연결 준비"); // 단계별 로그
+    RestTemplate rt = new RestTemplate(); // HTTP 통신 도구 생성
+    
+    System.out.println("2. 요청 전달");
+    BookResponse res = rt.getForObject(url, BookResponse.class); // 데이터 가져오기
+    
+    System.out.println("3. 데이터 확인: " + res.response.docs.get(0).doc.bookname);
+}
+
+3.3 공통 모듈 구현
+public class ApiUtil {
+    // 상수 관리
+    static final String KEY = "API_KEY";
+    static final String BASE_URL = "http://data4library.kr/api/loanItemSrch";
+
+    // 공통 호출 메서드
+    public static BookResponse fetch(RestTemplate rt, String params) {
+        String url = BASE_URL + "?authKey=" + KEY + "&format=json" + params;
+        return rt.getForObject(url, BookResponse.class);
+    }
+}
+
+3.4 컴파일 오류/경고 전체 제거
+public void cleanCode() {
+    // 빨간 줄(에러)과 노란 줄(경고)이 없는 깨끗한 상태 유지
+    String url = "http://data4library.kr/api/libSrch?authKey=KEY&format=json";
+    RestTemplate rt = new RestTemplate();
+    rt.getForObject(url, String.class);
+}
+
+3.5 사용자 인터페이스(UI) 구현
+public void printUI(BookResponse res) {
+    System.out.println("[인기 도서 목록]");
+    System.out.println("-------------------------");
+    for (DocWrapper item : res.response.docs) {
+        // printf를 써서 칸을 맞춰 출력 (UI 역할)
+        System.out.printf("제목: %-15s | 저자: %-10s\n", 
+            item.doc.bookname, item.doc.authors);
+    }
+}
+
+3.6 다른 요청 및 응답으로 활용 확장
+public void extendApi() {
+    // 1. 도서 정보 가져오기 (기존 기능)
+    BookResponse books = ApiUtil.fetch(rt, "&pageSize=5");
+    
+    // 2. 도서관 정보 가져오기 (새로운 기능 확장)
+    String libs = rt.getForObject("http://data4library.kr/api/libSrch?authKey=KEY&format=json", String.class);
+    System.out.println("도서관 데이터 수신 완료");
+}
