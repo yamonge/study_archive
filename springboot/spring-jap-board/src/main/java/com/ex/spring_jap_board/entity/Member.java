@@ -29,6 +29,12 @@ public class Member {
     @Column(length = 255, name = "member_img_url")
     private String memberImgUrl;
 
+    @Column(nullable = false, length = 30)
+    private String memberRole;
+
+    @Column(length = 500, name = "refresh_token")
+    private String refreshToken;
+
     private LocalDateTime memberCreatedAt;
 
     @PrePersist // DB에 INSERT 되기 직전에 자동 호출 되는 메서드
