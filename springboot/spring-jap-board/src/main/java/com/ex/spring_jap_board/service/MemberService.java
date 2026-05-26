@@ -24,7 +24,6 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-@Transactional ( readOnly = true ) // 읽기 전용으로 선언하면 영속성 컨텍스트의 변경 감지를 비활성화 (성능 향상)
 public class MemberService {
 
     private final MemberRepository memberRepository;

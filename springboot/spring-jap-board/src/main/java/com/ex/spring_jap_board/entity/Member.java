@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString(exclude = "pwd")
+@ToString(exclude = {"memberPwd", "refreshToken"})
 public class Member {
     @Id //PK 역할, JPA에서는 반드시 있어야함
     @GeneratedValue(strategy = GenerationType.IDENTITY) // ID 생성 전략을 DB에 위임 pk값 +1 자동을 넘김
