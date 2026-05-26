@@ -39,9 +39,10 @@ public class PostController {
         return ResponseEntity.ok(ApiResponse.ok( "게시글 작성 완료", null));
     }
 
-    @PostMapping("/update")
-    public ResponseEntity<ApiResponse<Void>> updatePost(@RequestBody PostUpReq req, @AuthenticationPrincipal CustomUserDetail userDetail){
-        postService.updatePost(req, userDetail.getMemberId());
+    @PostMapping("/update/{postId}")
+    public ResponseEntity<ApiResponse<Void>> updatePost(@RequestBody PostUpReq req, @AuthenticationPrincipal CustomUserDetail userDetail,
+                                                            @PathVariable Long postId){
+        postService.updatePost(req, userDetail.getMemberId(), postId);
         return ResponseEntity.ok(ApiResponse.ok("게시글 수정 완료", null));
     }
 

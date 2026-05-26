@@ -9,13 +9,11 @@ import lombok.ToString;
 @Getter
 @ToString
 public class PostUpReq {
-    private Long id;
     private String title;
     private String content;
 
     public static Post toEntity(PostUpReq req){
         Post post = new Post();
-        post.setPostId(req.getId());
         post.setTitle(req.getTitle());
         post.setContent(req.getContent());
         return post;

@@ -27,12 +27,14 @@ public class PostService {
     private final MemberRepository memberRepository;
 
     // 게시글 전체 조회
+    @Transactional(readOnly = true)
     public List<PostSearchRes> showAll(){
         return postRepository.findAll().stream()
                 .map(PostSearchRes::of)
                 .toList();
     }
     // 개별 게시글 조회
+    @Transactional(readOnly = true)
     public PostDetailRes findById(Long id){
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "해당 게시글을 찾을수 없습니다"));
@@ -51,8 +53,8 @@ public class PostService {
 
     // 게시글 수정
     @Transactional
-    public void updatePost(PostUpReq req, Long memberId){
-        Post post = postRepository.findById(req.getId())
+    public void updatePost(PostUpReq req, Long memberId, Long postId){
+        Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "존재하지 않는 게시글 입니다."));
 
         if(!post.getMember().getMemberId().equals(memberId)){
