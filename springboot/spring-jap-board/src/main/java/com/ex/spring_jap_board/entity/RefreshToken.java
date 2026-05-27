@@ -23,6 +23,6 @@ public class RefreshToken {
     @Column(name = "refreshToken" ,nullable = false, length = 500)
     private String refreshToken;
 
-    @Column(name = "expire_at", nullable = false)
-    private LocalDateTime expriedAt;
+    @Column(name = "expired_at", nullable = false)
+    private LocalDateTime expiredAt;
 }

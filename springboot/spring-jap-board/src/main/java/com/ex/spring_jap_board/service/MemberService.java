@@ -75,7 +75,7 @@ public class MemberService {
 
         token.setMemberId(member.getMemberId());
         token.setRefreshToken(refreshToken);
-        token.setExpriedAt(LocalDateTime.now().plusDays(14));
+        token.setExpiredAt(LocalDateTime.now().plusDays(14));
 
         refreshTokenRepository.save(token);
 
@@ -117,7 +117,7 @@ public class MemberService {
         String newRefreshToken = jwtUtil.createRefreshToken();
 
         savedToken.setRefreshToken(newRefreshToken);
-        savedToken.setExpriedAt(LocalDateTime.now().plusDays(14));
+        savedToken.setExpiredAt(LocalDateTime.now().plusDays(14));
         refreshTokenRepository.save(savedToken);
 
         return new LoginRes(
