@@ -6,8 +6,10 @@ import com.ex.spring_jap_board.dto.request.SignupReq;
 import com.ex.spring_jap_board.dto.response.LoginRes;
 import com.ex.spring_jap_board.dto.response.MemberRes;
 import com.ex.spring_jap_board.entity.Member;
+import com.ex.spring_jap_board.entity.RefreshToken;
 import com.ex.spring_jap_board.exception.CustomException;
 import com.ex.spring_jap_board.repository.MemberRepository;
+import com.ex.spring_jap_board.repository.RefreshTokenRepository;
 import com.ex.spring_jap_board.security.CustomUserDetail;
 import com.ex.spring_jap_board.security.JwtUtil;
 import org.springframework.boot.autoconfigure.graphql.GraphQlProperties;
@@ -20,6 +22,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -30,6 +33,7 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
     private final AuthenticationManager authenticationManager;
+    private final RefreshTokenRepository refreshTokenRepository;
 
     public void signup(SignupReq requestDto){
         if (memberRepository.existsByMemberEmail(requestDto.getMemberEmail())) {
@@ -66,8 +70,14 @@ public class MemberService {
 
         String refreshToken = jwtUtil.createRefreshToken();
 
-        member.setRefreshToken(refreshToken);
-        memberRepository.save(member);
+        RefreshToken token = refreshTokenRepository.findByMemberId(member.getMemberId())
+                .orElse(new RefreshToken());
+
+        token.setMemberId(member.getMemberId());
+        token.setRefreshToken(refreshToken);
+        token.setExpriedAt(LocalDateTime.now().plusDays(14));
+
+        refreshTokenRepository.save(token);
 
         return new LoginRes(
                 "Bearer",
@@ -81,8 +91,7 @@ public class MemberService {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "회원이 없습니다."));
 
-        member.setRefreshToken(null);
-        memberRepository.save(member);
+        refreshTokenRepository.deleteByMemberId(member.getMemberId());
     }
 
     public LoginRes reissue(ReissueReq requestDto) {
@@ -93,8 +102,11 @@ public class MemberService {
             throw new CustomException(HttpStatus.UNAUTHORIZED, "RefreshToken이 유효하지 않습니다.");
         }
 
-        Member member = memberRepository.findByRefreshToken(refreshToken)
+        RefreshToken savedToken = refreshTokenRepository.findByRefreshToken(refreshToken)
                 .orElseThrow(() -> new CustomException(HttpStatus.UNAUTHORIZED, "저장된 RefreshToken이 없습니다."));
+
+        Member member = memberRepository.findById(savedToken.getMemberId())
+                .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "저장된 회원이 없습니다."));
 
         String newAccessToken = jwtUtil.createToken(
                 member.getMemberId(),
@@ -104,8 +116,9 @@ public class MemberService {
 
         String newRefreshToken = jwtUtil.createRefreshToken();
 
-        member.setRefreshToken(newRefreshToken);
-        memberRepository.save(member);
+        savedToken.setRefreshToken(newRefreshToken);
+        savedToken.setExpriedAt(LocalDateTime.now().plusDays(14));
+        refreshTokenRepository.save(savedToken);
 
         return new LoginRes(
                 "Bearer",
