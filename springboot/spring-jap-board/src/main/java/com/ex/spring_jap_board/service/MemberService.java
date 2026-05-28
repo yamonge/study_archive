@@ -75,7 +75,7 @@ public class MemberService {
 
         token.setMemberId(member.getMemberId());
         token.setRefreshToken(refreshToken);
-        token.setExpiredAt(LocalDateTime.now().plusDays(14));
+        token.setExpiredAt(LocalDateTime.now().plusDays(7));
 
         refreshTokenRepository.save(token);
 
@@ -87,6 +87,7 @@ public class MemberService {
         );
     }
 
+    @Transactional
     public void logout(Long memberId) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "회원이 없습니다."));
@@ -102,11 +103,17 @@ public class MemberService {
             throw new CustomException(HttpStatus.UNAUTHORIZED, "RefreshToken이 유효하지 않습니다.");
         }
 
+
         RefreshToken savedToken = refreshTokenRepository.findByRefreshToken(refreshToken)
                 .orElseThrow(() -> new CustomException(HttpStatus.UNAUTHORIZED, "저장된 RefreshToken이 없습니다."));
 
+        if (savedToken.getExpiredAt().isBefore(LocalDateTime.now())) {
+            throw new CustomException(HttpStatus.UNAUTHORIZED, "RefreshToken이 만료되었습니다.");
+        }
+
         Member member = memberRepository.findById(savedToken.getMemberId())
                 .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "저장된 회원이 없습니다."));
+
 
         String newAccessToken = jwtUtil.createToken(
                 member.getMemberId(),
@@ -117,7 +124,7 @@ public class MemberService {
         String newRefreshToken = jwtUtil.createRefreshToken();
 
         savedToken.setRefreshToken(newRefreshToken);
-        savedToken.setExpiredAt(LocalDateTime.now().plusDays(14));
+        savedToken.setExpiredAt(LocalDateTime.now().plusDays(7));
         refreshTokenRepository.save(savedToken);
 
         return new LoginRes(
