@@ -1,10 +1,16 @@
-import "./App.css";
+import React from "react";
+import { Route, Routes } from "react-router-dom";
+import SignUpPage from "./pages/SignUpPage";
+import LoginPage from "./pages/Login";
+import MainPage from "./pages/MainPage";
 
 function App() {
   return (
-    <div>
-      <p>Hello, World!</p>
-    </div>
+    <Routes>
+      <Route path="/signup" element={<SignUpPage />} />
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/" element={<MainPage />} />
+    </Routes>
   );
 }
 

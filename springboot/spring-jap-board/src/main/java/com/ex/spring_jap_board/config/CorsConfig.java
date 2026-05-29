@@ -16,7 +16,7 @@ public class CorsConfig {
         CorsConfiguration config = new CorsConfiguration();
 
         // REACT CRA 기본 주소
-        config.setAllowedOrigins(List.of("http://loaclhost:3000"));
+        config.setAllowedOrigins(List.of("http://localhost:3000"));
 
         config.setAllowedHeaders(List.of("*"));
 

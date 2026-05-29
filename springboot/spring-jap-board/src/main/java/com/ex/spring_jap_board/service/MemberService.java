@@ -12,7 +12,8 @@ import com.ex.spring_jap_board.repository.MemberRepository;
 import com.ex.spring_jap_board.repository.RefreshTokenRepository;
 import com.ex.spring_jap_board.security.CustomUserDetail;
 import com.ex.spring_jap_board.security.JwtUtil;
-import org.springframework.boot.autoconfigure.graphql.GraphQlProperties;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -136,16 +137,20 @@ public class MemberService {
     }
 
     // 전체 조회 : Entity -> Res 변환 스트림 사용
-    public List<MemberRes> findAll(){
-        return memberRepository.findAll()
-                .stream()
-                .map(MemberRes::of)
-                .toList();
+    public Page<MemberRes> findAll(Pageable pageable){
+        return memberRepository.findAll(pageable)
+                .map(MemberRes::of);
     }
 
     public MemberRes findById(Long id){
         Member member = memberRepository.findById(id)
                 .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "회원을 찾을 수 없습니다.id = " + id));
+        return MemberRes.of(member);
+    }
+
+    public MemberRes findByEmail(String memberEmail){
+        Member member = memberRepository.findByMemberEmail(memberEmail)
+                .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "회원을 찾을수 없습니다."));
         return MemberRes.of(member);
     }
 }

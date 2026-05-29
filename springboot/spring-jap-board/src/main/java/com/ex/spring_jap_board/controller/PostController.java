@@ -9,6 +9,10 @@ import com.ex.spring_jap_board.entity.Post;
 import com.ex.spring_jap_board.security.CustomUserDetail;
 import com.ex.spring_jap_board.service.PostService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -22,8 +26,11 @@ public class PostController {
     private final PostService postService;
 
     @GetMapping("/all")
-    public ResponseEntity<ApiResponse<List<PostSearchRes>>> showAll(){
-        List<PostSearchRes> postList = postService.showAll();
+    public ResponseEntity<ApiResponse<Page<PostSearchRes>>> showAll(
+            @PageableDefault(size = 10, sort = "postId", direction = Sort.Direction.DESC)
+            Pageable pageable
+    ){
+        Page<PostSearchRes> postList = postService.showAll(pageable);
         return ResponseEntity.ok(ApiResponse.ok("전체 게시물 조회 성공", postList));
     }
 
