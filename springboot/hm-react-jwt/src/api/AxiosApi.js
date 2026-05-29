@@ -45,7 +45,7 @@ const AxiosApi = {
   getMembers: (page = 0, size = 20) =>
     AxiosInstance.get("/members/showall", { params: { page, size } }),
 
-  // 회원 상세 조회
+  // 회원 상세 
   getMember: (memberEmail) =>
     AxiosInstance.get(`/member/detail`, {
       params: { memberEmail: memberEmail },
