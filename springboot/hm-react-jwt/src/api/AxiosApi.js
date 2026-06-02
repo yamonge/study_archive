@@ -8,6 +8,7 @@ const AxiosApi = {
   // 인증 (Auth)
   login: (credentials) => publicApi.post("/member/login", credentials),
   signup: (userInfo) => publicApi.post("/member/signup", userInfo),
+  authMe: () => AxiosInstance.get("/member/me"),
 
   // 게시글 전체 조회(페이지 네이션)
   getPosts: (page = 0, size = 10) =>
@@ -45,7 +46,7 @@ const AxiosApi = {
   getMembers: (page = 0, size = 20) =>
     AxiosInstance.get("/members/showall", { params: { page, size } }),
 
-  // 회원 상세 
+  // 회원 상세
   getMember: (memberEmail) =>
     AxiosInstance.get(`/member/detail`, {
       params: { memberEmail: memberEmail },

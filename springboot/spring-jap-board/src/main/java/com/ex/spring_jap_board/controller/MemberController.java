@@ -78,5 +78,12 @@ public class MemberController {
     ){
         return ResponseEntity.ok(ApiResponse.ok("회원 조회 성공!", memberService.findByEmail(memberEmail)));
     }
+
+    @GetMapping("/me")
+    public ResponseEntity<ApiResponse<MemberRes>> findMe(
+            @AuthenticationPrincipal CustomUserDetail userDetail
+    ){
+        return ResponseEntity.ok(ApiResponse.ok("회원정보 가졍오기 성공!", memberService.findMe(userDetail)));
+    }
     
 }

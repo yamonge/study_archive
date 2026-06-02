@@ -153,4 +153,10 @@ public class MemberService {
                 .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "회원을 찾을수 없습니다."));
         return MemberRes.of(member);
     }
+
+    public MemberRes findMe(CustomUserDetail userDetail){
+        Member member = memberRepository.findById(userDetail.getMemberId())
+                .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "회원을 찾을수 없습니다."));
+        return MemberRes.of(member);
+    }
 }

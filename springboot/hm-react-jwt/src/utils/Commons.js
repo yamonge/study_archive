@@ -2,7 +2,7 @@ import axios from "axios";
 
 const Common = {
   // 백엔드 주소
-  HM_DOMAIN: "http://localhost:8111",
+  HM_DOMAIN: "http://172.29.209.39:8111",
 
   // 엑세스 토큰 관리 (localStrage)
   getAccessToken: () => localStorage.getItem("accessToken"),
