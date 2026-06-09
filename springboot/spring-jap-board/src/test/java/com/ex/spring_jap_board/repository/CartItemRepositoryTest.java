@@ -45,6 +45,7 @@ class CartItemRepositoryTest {
         member.setMemberName("홍길동");
         member.setMemberEmail("hong@naver.com");
         member.setMemberPwd("hong1234");
+        member.setMemberRole("USER");
         return member;
     }
     // 상품 생성 메서드 구현 : 반환이 상품 엔티티
