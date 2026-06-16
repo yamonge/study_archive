@@ -1,0 +1,21 @@
+| API | 요청 조건 | 기대 결과 | 실제 결과 | 통과 여부 |
+| --- | --- | --- | --- | --- |
+| POST `/member/signup` | 정상 데이터: `memberEmail`, `memberPwd`, `memberName` 모두 입력 | 200 OK, `success=true`, `message="회원가입 성공"`, `data=null` | 200 OK, `success=true`, `message="회원가입 성공"`, `data=null` | O |
+| POST `/member/signup` | 이미 가입한 이메일로 다시 요청 | 400 Bad Request, `success=false`, `message="이미 가입된 이메일입니다."` | 400 Bad Request, `success=false`, `message="이미 가입된 이메일입니다."` | O |
+| POST `/member/signup` | 필수 필드 누락: `memberName` 누락 | 400 Bad Request, `success=false`, 필수 입력값 누락 메시지 확인 | 400 Bad Request, `success=false`, 필수 입력값 누락 메시지 확인 | O |
+| POST `/member/login` | 가입된 이메일과 비밀번호 입력 | 200 OK, `success=true`, `data.grantType="Bearer"`, `data.accessToken`, `data.refreshToken`, `data.accessTokenExpiresIn` 존재 | 200 OK, `success=true`, `data.grantType="Bearer"`, `data.accessToken`, `data.refreshToken`, `data.accessTokenExpiresIn` 확인 | O |
+| POST `/member/login` | 틀린 비밀번호 입력 | 401 Unauthorized 또는 인증 실패 응답 | 401 Unauthorized, 인증 실패 응답 확인 | O |
+| GET `/member/showall` | 토큰 없이 호출 | 401 Unauthorized | 401 Unauthorized | O |
+| GET `/member/showall` | `Authorize`에 Access Token 등록 후 호출 | 200 OK, `success=true`, `data.content` 배열 확인 | 200 OK, `success=true`, `data.content` 배열 확인 | O |
+| GET `/member/detail` | 토큰 등록 후 존재하는 `memberEmail` 입력 | 200 OK, `success=true`, `data.memberId`, `data.memberName`, `data.memberImgUrl` 필드 확인 | 200 OK, `success=true`, 회원 상세 필드 확인 | O |
+| GET `/member/detail` | 토큰 등록 후 없는 `memberEmail` 입력 | 404 Not Found, `success=false`, `message="회원을 찾을수 없습니다."` | 404 Not Found, `success=false`, `message="회원을 찾을수 없습니다."` | O |
+| GET `/member/me` | 토큰 등록 후 호출 | 200 OK, 로그인한 회원의 `memberId`, `memberName`, `memberImgUrl` 확인 | 200 OK, 로그인한 회원 정보 확인 | O |
+| POST `/posts/write` | 토큰 없이 정상 게시글 JSON 요청 | 401 Unauthorized | 401 Unauthorized | O |
+| POST `/posts/write` | 토큰 등록 후 `title`, `content` 입력 | 200 OK, `success=true`, `message="게시글 작성 완료"` | 200 OK, `success=true`, `message="게시글 작성 완료"` | O |
+| GET `/posts/all` | 토큰 등록 후 호출 | 200 OK, `success=true`, `data.content` 배열에 게시글 목록 확인 | 200 OK, `success=true`, 게시글 목록 확인 | O |
+| GET `/posts/detail/{postId}` | 토큰 등록 후 존재하는 게시글 ID 입력 | 200 OK, `success=true`, `data.id`, `data.title`, `data.content`, `data.writer`, `data.createdAt` 확인 | 200 OK, `success=true`, 게시글 상세 필드 확인 | O |
+| GET `/posts/detail/{postId}` | 토큰 등록 후 없는 게시글 ID 입력: `999999` | 404 Not Found, `success=false`, `message="해당 게시글을 찾을수 없습니다"` | 404 Not Found, `success=false`, `message="해당 게시글을 찾을수 없습니다"` | O |
+| POST `/posts/update/{postId}` | 작성자 토큰으로 존재하는 게시글 ID와 수정 JSON 입력 | 200 OK, `success=true`, `message="게시글 수정 완료"` | 200 OK, `success=true`, `message="게시글 수정 완료"` | O |
+| POST `/posts/update/{postId}` | 작성자가 아닌 다른 회원 토큰으로 수정 요청 | 403 Forbidden, `success=false`, `message="수정 권한이 없습니다."` | 403 Forbidden, `success=false`, `message="수정 권한이 없습니다."` | O |
+| POST `/posts/delete/{postId}` | 작성자 토큰으로 존재하는 게시글 ID 입력 | 200 OK, `success=true`, `message="게시글 삭제 완료"` | 200 OK, `success=true`, `message="게시글 삭제 완료"` | O |
+| POST `/posts/delete/{postId}` | 없는 게시글 ID 입력: `999999` | 404 Not Found, `success=false`, `message="존재하지 않는 게시글 입니다."` | 404 Not Found, `success=false`, `message="존재하지 않는 게시글 입니다."` | O |

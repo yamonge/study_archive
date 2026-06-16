@@ -1,0 +1,26 @@
+@DataJpaTest
+class MemberRepositoryDataJpaTest {
+
+    @Autowired
+    private MemberRepository memberRepository;
+
+    @Test
+    @DisplayName("회원 저장, 단건 조회, 삭제를 검증한다")
+    void saveFindByIdAndDeleteTest() {
+        Member member = createMember("user1@example.com", "홍길동");
+
+        Member savedMember = memberRepository.saveAndFlush(member);
+
+        Optional<Member> foundMember = memberRepository.findById(savedMember.getMemberId());
+        assertTrue(foundMember.isPresent());
+        assertEquals(savedMember.getMemberId(), foundMember.get().getMemberId());
+        assertEquals("user1@example.com", foundMember.get().getMemberEmail());
+        assertEquals("홍길동", foundMember.get().getMemberName());
+        assertEquals("test1234", foundMember.get().getMemberPwd());
+
+        memberRepository.deleteById(savedMember.getMemberId());
+        memberRepository.flush();
+
+        Optional<Member> deletedMember = memberRepository.findById(savedMember.getMemberId());
+        assertTrue(deletedMember.isEmpty());
+    }
