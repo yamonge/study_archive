@@ -1,4 +1,11 @@
 #include <stdio.h>
+#include <math.h>
+
+void printAvg(double h, char g, double w, double *c){
+  double meterHeight = h / 100;
+  double avgWeight = meterHeight * meterHeight * 22;
+  *c = w - avgWeight; 
+}
 
 int main(void){
 
@@ -69,6 +76,19 @@ int main(void){
 
 
   // 키(cm)와 성별을 입력받아 표준 체중을 계산하고, 현재 체중(kg)과의 차이를 출력하는 프로그램을 작성하시오.
+  double height;
+  char gender;
+  double weight;
+  double chy;
+
+  printf("키, 성별, 체중을 입력해주세요: ");
+  scanf("%lf %c %lf", &height, &gender, &weight);
+  
+  printf("%.1f %c %.1f \n", height, gender, weight);
+
+  printAvg(height, gender, weight, &chy);
+
+  printf("평균체중과 차이는 : %.1f 입니다 \n", fabs(chy));
 
   return 0;
 }
