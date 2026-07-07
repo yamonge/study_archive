@@ -1,0 +1,155 @@
+1.1
+
+회원 정보에 필요한 데이터 항목
+id    : int      - 회원 고유번호는 숫자이므로 int 사용
+name  : char[30] - 이름은 문자열이므로 char 배열 사용
+age   : int      - 나이는 정수이므로 int 사용
+email : char[50] - 이메일은 문자열이므로 char 배열 사용
+
+1.2
+
+#include <stdio.h>
+#include <string.h>
+
+typedef struct {
+    int id;
+    char name[30];
+    int age;
+    char email[50];
+} Member;
+
+1.3
+
+#define MAX_MEMBERS 10
+
+Member members[MAX_MEMBERS];
+int memberCount = 0;
+
+1.4
+
+1. 회원 정보를 저장할 구조체 배열을 준비한다.
+2. 현재 저장된 회원 수를 0으로 초기화한다.
+3. addMember() 함수를 호출해서 회원 3명을 추가한다.
+4. findMemberByName() 함수를 호출해서 이름으로 회원을 검색한다.
+5. 검색 결과가 있으면 회원 정보를 출력한다.
+6. 검색 결과가 없으면 "해당 회원을 찾을 수 없습니다."를 출력한다.
+7. printAllMembers() 함수를 호출해서 전체 회원 목록을 출력한다.
+8. 프로그램을 종료한다.
+
+2.1
+
+int main(void) {
+    addMember(1, "홍길동", 25, "hong@test.com");
+    addMember(2, "김철수", 30, "kim@test.com");
+    addMember(3, "이영희", 28, "lee@test.com");
+
+    int idx = findMemberByName("김철수");
+
+    if (idx != -1) {
+        printf("검색 성공: %s\n", members[idx].name);
+    } else {
+        printf("해당 회원을 찾을 수 없습니다.\n");
+    }
+
+    printAllMembers();
+
+    return 0;
+}
+
+2.2
+
+int findMemberByName(const char *name) {
+    for (int i = 0; i < memberCount; i++) {
+        if (strcmp(members[i].name, name) == 0) {
+            return i;
+        }
+    }
+
+    return -1;
+}
+
+2.4
+
+#include <stdio.h>
+#include <string.h>
+
+#define MAX_MEMBERS 10
+int memberCount = 0;
+
+typedef struct {
+    int id;
+    char name[30];
+    int age;
+    char email[50];
+} Member;
+
+Member members[MAX_MEMBERS];
+
+void addMember(int id, const char *name, int age, const char *email) {
+    if (memberCount >= MAX_MEMBERS) {
+        printf("회원이 가득 찼습니다.\n");
+        return;
+    }
+
+    members[memberCount].id = id;
+    strcpy(members[memberCount].name, name);
+    members[memberCount].age = age;
+    strcpy(members[memberCount].email, email);
+
+    memberCount++;
+}
+
+int findMemberByName(const char *name) {
+    for (int i = 0; i < memberCount; i++) {
+        if (strcmp(members[i].name, name) == 0) {
+            return i;
+        }
+    }
+
+    return -1;
+}
+
+void printAllMembers(void) {
+    printf("[\n");
+
+    for (int i = 0; i < memberCount; i++) {
+        printf("  {\"id\":%d, \"name\":\"%s\", \"age\":%d, \"email\":\"%s\"}",
+               members[i].id,
+               members[i].name,
+               members[i].age,
+               members[i].email);
+
+        if (i < memberCount - 1) {
+            printf(",");
+        }
+
+        printf("\n");
+    }
+
+    printf("]\n");
+}
+
+int main(void) {
+    addMember(1, "홍길동", 25, "hong@test.com");
+    addMember(2, "김철수", 30, "kim@test.com");
+    addMember(3, "이영희", 28, "lee@test.com");
+
+    int idx = findMemberByName("김철수");
+
+    if (idx != -1) {
+        printf("검색 성공: %s\n", members[idx].name);
+    } else {
+        printf("해당 회원을 찾을 수 없습니다.\n");
+    }
+
+    printAllMembers();
+
+    return 0;
+}
+
+
+
+
+
+
+
