@@ -9,6 +9,7 @@
 
 void* recv_process(void* arg);
 void* send_process(void* arg);
+void* client_process(void* arg);
 
 typedef struct {
     uint8_t type;
@@ -71,29 +72,63 @@ int main(void){
 
     printf("클라이언트 접속 성공\n");
 
-    pthread_t recv_thread;
-    pthread_t send_thread;
+    pthread_t client_thread;
+    int* client_arg = malloc(sizeof(int));
 
-    if(pthread_create(&recv_thread, NULL, recv_process, &client_sock) != 0){
-      perror("recv 스레드 생성 실패");
+    if(client_arg == NULL){
+      perror("메모리 할당 실패");
       close(client_sock);
       continue;
-    };
-    if(pthread_create(&send_thread, NULL, send_process, &client_sock) != 0){
-      shutdown(client_sock, SHUT_RDWR);
-      pthread_join(recv_thread, NULL);
+    }
 
+    *client_arg = client_sock;
+
+    int client_result = pthread_create(&client_thread, NULL, client_process, client_arg);
+
+    if(client_result != 0){
+      fprintf(stderr, "client_result 생성 실패 : %s \n", strerror(client_result));
+      free(client_arg);
       close(client_sock);
-      continue;
-    };
+      continue; 
+    }
 
-    pthread_join(recv_thread, NULL);
-    pthread_join(send_thread, NULL);
-
-    close(client_sock);
+    pthread_detach(client_thread);
 
   }
   return 0;
+}
+
+void* client_process(void* arg){
+  int client_sock = *(int*)arg;
+  free(arg);
+
+  pthread_t recv_thread;
+  pthread_t send_thread;
+
+  int recv_result = pthread_create(&recv_thread, NULL, recv_process, &client_sock);
+
+  if(recv_result != 0){
+    fprintf(stderr, "recv_thread 생성 실패 : %s \n", strerror(recv_result));
+    close(client_sock);
+    return NULL;
+  }
+
+  int send_result = pthread_create(&send_thread, NULL, send_process, &client_sock);
+
+  if(send_result != 0){
+    fprintf(stderr, "send_thread 생성 실패: %s \n", strerror(send_result));
+    pthread_cancel(recv_thread);
+    pthread_join(recv_thread, NULL);
+    close(client_sock);
+    return NULL;
+  }
+
+  pthread_join(recv_thread, NULL);
+  pthread_join(send_thread, NULL);
+
+  close(client_sock);
+
+  return NULL;
 }
 
 void* recv_process(void* arg){
@@ -113,11 +148,13 @@ void* recv_process(void* arg){
 
       if(recv_size == 0){
         printf("클라이언트 연결 종료\n");
+        shutdown(client_sock, SHUT_RDWR);
         return NULL;
       }
 
       if(recv_size == -1){
         perror("recv 실패");
+        shutdown(client_sock, SHUT_RDWR);
         return NULL;
       }
 
@@ -174,15 +211,17 @@ void* send_process(void* arg){
     size_t total_sent = 0;
 
     while(total_sent < sizeof(buffer)){
-      ssize_t send_size = send(client_sock, buffer + total_sent, sizeof(buffer) - total_sent, 0);
+      ssize_t send_size = send(client_sock, buffer + total_sent, sizeof(buffer) - total_sent, MSG_NOSIGNAL);
 
       if(send_size == 0){
         printf("더 이상 전송할 수 없습니다.");
+        shutdown(client_sock, SHUT_RDWR);
         return NULL;
       }
 
       if(send_size == -1){
         perror("send 실패");
+        shutdown(client_sock, SHUT_RDWR);
         return NULL;
       }
 
