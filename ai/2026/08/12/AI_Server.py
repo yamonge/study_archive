@@ -91,3 +91,46 @@ HOST = "0.0.0.0"
 PORT = 9997
 
 ## 서버 소켓 생성
+server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+server_socket.bind((HOST, PORT))
+server_socket.listen()
+
+while True:
+    client_socket, addr = server_socket.accept()
+    print(f"클라이언트 {addr}가 연결되었습니다.")
+
+    try:
+        # 이미지 크기 수신
+        header = recv_all(client_socket, 4)
+
+        if header is None:
+            print("서버 연결 종료 또는 데이터 수신 살패")
+            break
+
+        # 4 byte -> 정수 변환
+        image_size = struct.unpack(">I", header)[0]
+        print("이미지 크기 :", image_size)
+
+        image_bytes = recv_all(client_socket, image_size)
+        print("이미지 수신 완료")
+
+        # AI 추론
+        result = predict_image(image_bytes)
+        print("추론 결과: ", result)
+
+        # JSON 으로 변환
+        result_json =  json.dumps(result, ensure_ascii=False).encode()
+
+        # 결과 길이 전송
+        client_socket.sendall((struct.pack(">I", len(result_json))))
+
+        # 결과 데이터를 클라이언트에 전송
+        client_socket.sendall(result_json)
+        print("결과 전송 완료")
+
+    except Exception as e:
+        print("데이터 수신 중 오류 발생 :", e)
+        break
+    finally:
+        client_socket.close()
+        print(f"클라이언트 {addr} 연결 종료")
